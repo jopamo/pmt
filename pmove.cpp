@@ -75,9 +75,25 @@ study that list, you’ll find a reference to the “Park Miller generator;” t
 */
 
 #include <iostream>
+#include <math.h>
+#include <stdlib.h>
+
+using namespace std;
+
+int roll(int min, int max) {
+	srand (time(NULL));
+
+	int roll = rand() % max + min;
+
+	return roll;
+}
 
 int main() {
-    std::cout << "Hello World!";
-    return 0;
+	long randnum = roll(1, 4);
+
+	std::cout << "Here's a random number ";
+	std::cout << randnum << endl;
+
+	return 0;
 }
 
