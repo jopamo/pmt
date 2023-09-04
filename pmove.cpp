@@ -81,14 +81,14 @@ study that list, you’ll find a reference to the “Park Miller generator;” t
 using namespace std;
 
 int roll(int min, int max) {
-	srand (time(NULL));
-
 	int roll = rand() % max + min;
 
 	return roll;
 }
 
 int main() {
+	srand (time(NULL));
+
 	long randnum = roll(1, 4);
 
 	std::cout << "Here's a random number ";
