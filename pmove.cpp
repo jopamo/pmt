@@ -89,7 +89,7 @@ int roll(int min, int max) {
 int main() {
 	srand (time(NULL));
 
-	long randnum = roll(1, 4);
+	int randnum = roll(1, 4);
 
 	std::cout << "Here's a random number ";
 	std::cout << randnum << endl;
