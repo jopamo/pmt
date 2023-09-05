@@ -159,8 +159,13 @@ int main() {
       continue;
     }
 
-    if (userDimension >= maxWidth || userDimension < 1 )
-      cout << "You chose a number, but it's too big or small, Try again!\n";
+    if ( userDimension < 1 ) {
+      cout << "This will not work with a zero, Try again!\n";
+      continue;
+    }
+
+	if ( userDimension >= maxWidth )
+      cout << "Large values are not currently supported, Try again!\n";
   }
 
   maxPositions = userDimension * userDimension;
