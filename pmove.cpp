@@ -9,6 +9,8 @@ PersonB will start at (Dimension, Dimension). PersonA will move first, then Pers
 alternating moves, one at a time, until they end up at the same coordinate, or the maxMoves number of moves is
 exceeded.
 
+gameBoard[i][j]
+
 Each time a person is to make a move, your program will randomly choose from four directions: north, east,
 south, or west. If the person is on the edge of the grid, and moving in the selected direction would take the
 person off the grid (that is, through the surrounding wall), then for this “move” the person will stay at the same
@@ -75,25 +77,101 @@ study that list, you’ll find a reference to the “Park Miller generator;” t
 */
 
 #include <iostream>
-#include <math.h>
-#include <stdlib.h>
 
 using namespace std;
 
-int roll(int min, int max) {
-	int roll = rand() % max + min;
+bool intCheck(string input) {
+  if(input.size()==0)
+    return false;
 
-	return roll;
+  for(int i=0; i < input.size(); i++) {
+    if(!isdigit(input[i]))
+      return false;
+  }
+  return true;
 }
+
+int roll(int min, int max) {
+  int roll = rand() % max + min;
+
+  return roll;
+}
+
+/*
+
+this doesn't work yet but hopefully it makes sense:
+
+bool didTheyMeet (bool playerAlocation[x][y] == bool playerBlocation[x][y]);
+
+Example of game board if user chose '4' for board size
+
+bool playerAlocation[4][4] = {
+  { 0, 0, 0, 0 },
+  { 0, 0, 0, 0 },
+  { 0, 0, 0, 0 },
+  { 1, 0, 0, 0 }
+};
+
+bool playerBlocation[4][4] = {
+  { 0, 0, 0, 1 },
+  { 0, 0, 0, 0 },
+  { 0, 0, 0, 0 },
+  { 0, 0, 0, 0 }
+};
+
+*/
 
 int main() {
-	srand (time(NULL));
+  srand (time(NULL));
 
-	int randnum = roll(1, 4);
+  int randnum = roll(1, 4);
+  string userString;
+  int userDimension = 0;
+  int maxPositions = 0;
 
-	std::cout << "Here's a random number ";
-	std::cout << randnum << endl;
+  const int maxWidth = 100;
+  const int minWidth = 1;
 
-	return 0;
+  /*
+    enter a positive integer < 100. If the user types
+    in anything besides digits, give an appropriate error
+    message and reprompt. If the user types in digits, but
+    not an integer in the proper range, give an appropriate
+    error message and reprompt. Don’t stop reprompting until
+    an integer in the proper range is entered. Remember that
+    every prompt should be explicit and precise about what is
+    being requested, and what (if anything) went wrong.
+  */
+
+  while (userDimension >= maxWidth || userDimension < minWidth ) {
+    cout << "Enter a number between 1 and 100: ";
+    cin >> userString;
+
+    bool isInt = intCheck(userString);
+
+    if(isInt) {
+      //don't give stoi() anything big, 3 char wide
+      userString.resize(3);
+      cout << userString << endl;
+      userDimension = stoi(userString);
+    }
+    else
+      cout << "That's not a number, Try again!\n";
+
+    if (userDimension >= maxWidth || userDimension < 1 )
+      cout << "You chose a number, but it's too big or small, Try again!\n";
+  }
+
+  maxPositions = userDimension * userDimension;
+
+  cout << "Here's a random number between 1 and 4: ";
+  cout << randnum << endl;
+
+  cout << "Here's the dimensions, it's a square: ";
+  cout << "Length and width are both: ";
+  cout << userDimension << endl;
+  cout << "Total Squares: ";
+  cout << maxPositions << endl;
+
+  return 0;
 }
-
