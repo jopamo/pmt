@@ -164,7 +164,7 @@ int main() {
       continue;
     }
 
-	if ( userDimension >= maxWidth )
+    if ( userDimension >= maxWidth )
       cout << "Large values are not currently supported, Try again!\n";
   }
 
