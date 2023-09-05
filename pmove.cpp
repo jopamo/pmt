@@ -155,8 +155,10 @@ int main() {
       cout << userString << endl;
       userDimension = stoi(userString);
     }
-    else
+    else {
       cout << "That's not a number, Try again!\n";
+      continue;
+    }
 
     if (userDimension >= maxWidth || userDimension < 1 )
       cout << "You chose a number, but it's too big or small, Try again!\n";
