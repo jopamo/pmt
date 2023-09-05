@@ -152,7 +152,6 @@ int main() {
     if(isInt) {
       //don't give stoi() anything big, 3 char wide
       userString.resize(3);
-      cout << userString << endl;
       userDimension = stoi(userString);
     }
     else {
@@ -166,13 +165,13 @@ int main() {
 
   maxPositions = userDimension * userDimension;
 
-  cout << "Here's a random number between 1 and 4: ";
+  cout << "\nHere's a random number between 1 and 4: ";
   cout << randnum << endl;
 
-  cout << "Here's the dimensions, it's a square: ";
-  cout << "Length and width are both: ";
+  cout << "\nHere's the dimensions, it's a square...\n";
+  cout << "\tLength/Width: ";
   cout << userDimension << endl;
-  cout << "Total Squares: ";
+  cout << "\tTotal Squares: ";
   cout << maxPositions << endl;
 
   return 0;
