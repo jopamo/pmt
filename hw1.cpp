@@ -3,26 +3,26 @@
 using namespace std;
 
 //checks input string by char array and returns on first encountered non integer character from index 0
-bool intCheck(string input) {
-  if (input.size()==0)
+bool intCheck(string str) {
+  if (str.size()==0)
     return false;
 
-  for (int i=0; i < input.size(); i++) {
-    if (!isdigit(input[i]))
-        return false;
+  for (int i=0; i < str.size(); i++) {
+    if (!isdigit(str[i]))
+      return false;
   }
 
   return true;
 }
 
 //if intCheck returns true, give stoi the first 8 digits only
-int str2int(string input) {
-  bool isInt = intCheck(input);
+int str2int(string str) {
+  bool isInt = intCheck(str);
 
   if (isInt) {
     //don't give stoi() anything beyond 8 char wide
-    input.resize(8);
-    return stoi(input);
+    str.resize(8);
+    return stoi(str);
   }
 
   return -1;
