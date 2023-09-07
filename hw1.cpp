@@ -1,100 +1,88 @@
 #include <iostream>
-#include <string>
-#include <sstream>
 
 using namespace std;
 
+bool intCheck(string input) {
+	if (input.size()==0)
+		return false;
+
+	for (int i=0; i < input.size(); i++) {
+		if (!isdigit(input[i]))
+			return false;
+	}
+	return true;
+}
+
+int str2int(string input) {
+	bool isInt = intCheck(input);
+
+	if(isInt) {
+		//don't give stoi() anything big, 8 char wide is beyond spec
+		input.resize(8);
+		return stoi(input);
+	}
+	else
+		return -1;
+}
+
+int roll(int min, int max) {
+	int roll = rand() % max + min;
+
+	return roll;
+}
+
 int dimCheck(string str) {
-    bool check;
-    double dimension = 0;
-    check = (atof(str.c_str()) != 0 || str.compare("0") == 0);
-        if(check == 0) {
-            cout << "This is not a number. Please write a number between 1 to 99." << endl;
-            return dimension;
-        }
-        else {
-            istringstream(str) >> dimension;
-            if((dimension - (int) dimension) == 0) {
-                if(dimension < 1) {
-                    cout << "Dimension has to be larger than 1. Please write a number between 1 to 99." << endl;
-                    dimension = 0;
-                    return dimension;
-                }
-                else if(dimension > 100) {
-                    cout << "Dimension has to smaller than 100. Please write a number between 1 to 99." << endl;
-                    dimension = 0;
-                    return dimension;
-                }
-                else {
-                    return dimension;
-                }
-            }
-            else {
-                cout << "This is not a integer. Please write a number between 1 to 99." << endl;
-                dimension = 0;
-                return dimension;
-            }
-        }
-    
+	int dimension = str2int(str);
+
+	if (dimension == -1)
+		cout << "This is not a number. Please write a number between 1 to 99." << endl;
+	else if (dimension < 1) {
+		cout << "Dimension has to be larger than 1. Please write a number between 1 to 99." << endl;
+		return -1;
+	}
+	else if(dimension > 99) {
+		cout << "Dimension has to smaller than 100. Please write a number between 1 to 99." << endl;
+		return -1;
+	}
+
+	return dimension;
 }
 
 int moveCheck(string str) {
-    bool check;
-    double maxMoves = 0;
-    check = (atof(str.c_str()) != 0 || str.compare("0") == 0);
-        if(check == 0) {
-            cout << "This is not a number. Please write a number between 1 to 1000000." << endl;
-            return maxMoves;
-        }
-        else {
-            istringstream(str) >> maxMoves;
-            if((maxMoves - (int) maxMoves) == 0) {
-                if(maxMoves < 1) {
-                    cout << "Dimension has to be larger than 1. Please write a number between 1 to 1000000." << endl;
-                    maxMoves = 0;
-                    return maxMoves;
-                }
-                else if(maxMoves > 100) {
-                    cout << "Dimension has to smaller than 100. Please write a number between 1 to 1000000." << endl;
-                    maxMoves = 0;
-                    return maxMoves;
-                }
-                else {
-                    return maxMoves;
-                }
-            }
-            else {
-                cout << "This is not a integer. Please write a number between 1 to 1000000." << endl;
-                maxMoves = 0;
-                return maxMoves;
-            }
-        }
-    
+	int maxMoves = str2int(str);
+
+	if(maxMoves == -1)
+		cout << "This is not a number. Please write a number between 1 to 1000000." << endl;
+	else if (maxMoves < 1) {
+		cout << "Dimension has to be larger than 1. Please write a number between 1 to 1000000." << endl;
+		return -1;
+	}
+	else if(maxMoves > 1000000) {
+		cout << "Dimension has to smaller than 1000000. Please write a number between 1 to 1000000." << endl;
+		return -1;
+	}
+
+	return maxMoves;
 }
 
 int main() {
-    string userString;
-    int dimension = 0;
-    int maxMoves = 0;
+	string userString;
+	int dimension = -1;
+	int maxMoves = -1;
 
-    /* Ask the user to enter a dimension*/
-    if(dimension == 0){
-        while(dimension == 0) {
-            cout << "Enter a number between 1 to 99 for dimension: ";
-            cin >> userString;
-            dimension = dimCheck(userString); 
-        }
-    }
+	/* Ask the user to enter a dimension*/
+	while(dimension == -1) {
+		cout << "Enter a number between 1 to 99 for dimension: ";
+		cin >> userString;
+		dimension = dimCheck(userString);
+	}
 
-    /* Ask the user to enter a maxMoves*/
-    if(maxMoves == 0){
-        while(maxMoves == 0) {
-            cout << "Enter a number between 1 to 1000000 for maximum movements: ";
-            cin >> userString;
-            maxMoves = moveCheck(userString); 
-        }
-    }
+	/* Ask the user to enter a maxMoves*/
+	while(maxMoves == -1) {
+		cout << "Enter a number between 1 to 1000000 for maximum movements: ";
+		cin >> userString;
+		maxMoves = moveCheck(userString);
+	}
 
-    return 0;
-
+	return 0;
 }
