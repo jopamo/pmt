@@ -1,7 +1,4 @@
 #include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <string>
 
 using namespace std;
 
@@ -161,10 +158,10 @@ int locCheck(int personA[], int personB[]) {
   if(personA[1] == personB[1] && personA[2] == personB[2]) {
     cout << "\nPersonA and PersonB met at the same location. The game is over." << endl;
     cout << "It took " << total << " turns for them to meet." << endl;
-    return 1;
+    return 0;
   }
   else {
-    return 0;
+    return -1;
   }
 }
 
@@ -173,10 +170,10 @@ int maxmoveCheck(int personA[], int personB[], int maxMoves) {
   if(personA[3] + personB[3] == maxMoves) {
     cout << "\nYou have reached the maximum number of moves. Try again!" << endl;
     cout << "The players moved " << maxMoves << " times and never met." << endl;
-    return 1;
+    return 0;
   }
   else {
-    return 0;
+    return -1;
   }
 }
 
