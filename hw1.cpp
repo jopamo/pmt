@@ -37,70 +37,71 @@ int str2int(string input) {
 //rolls a pseudo random dice with supplied start/end values
 int* roll(int person[], int dimension) {
   int dir = rand() % 4;
+
+  cout << "Your current location is:" << endl;
+  curLocation(person);
   // north = 0, south = 1, east = 2, west = 3
   if (dir == 0) {
-    person[2] += 1;
-    person[3] += 1;
+    person[2]++;
+    person[3]++;
+
     cout << "Move to North!" << endl;
     wallCheck(person, dimension);
-    curLocation(person);
   }
   else if (dir == 1) {
-    person[2] -= 1;
-    person[3] += 1;
+    person[2]--;
+    person[3]++;
+
     cout << "Move to South!" << endl;
     wallCheck(person, dimension);
-    curLocation(person);
   }
   else if (dir == 2) {
-    person[1] += 1;
-    person[3] += 1;
+    person[1]++;
+    person[3]++;
+
     cout << "Move to East!" << endl;
     wallCheck(person, dimension);
-    curLocation(person);
   }
   else if (dir == 3) {
-    person[1] -= 1;
-    person[3] += 1;
+    person[1]--;
+    person[3]++;
+
     cout << "Move to West!" << endl;
     wallCheck(person, dimension);
-    curLocation(person);
   }
   else {
     cout << "random generator error" << endl;
   }
+
+  cout << "Your new location is:" << endl;
+  curLocation(person);
 
   return person;
 }
 
 int* wallCheck(int person[], int dimension) {
   if (person[1] < 0) {
-    person[1] += 1;
-    cout << "You have exceeded your allowable range." << endl;
-    cout << "Please wait until next people move" << endl;
-    return person;
+    person[1] = 0;
+    cout << "Ouch! You hit a wall!" << endl;
+    cout << "You stay in same location and lose your turn." << endl;
   }
   else if (person[1] > dimension) {
-    person[1] -= 1;
-    cout << "You have exceeded your allowable range." << endl;
-    cout << "Please wait until next people move" << endl;
-    return person;
+    person[1] = dimension;
+    cout << "Ouch! You hit a wall!" << endl;
+    cout << "You stay in same location and lose your turn." << endl;
   }
   else if (person[2] < 0) {
-    person[2] += 1;
-    cout << "You have exceeded your allowable range." << endl;
-    cout << "Please wait until next people move" << endl;
-    return person;
+    person[2] = 0;
+    cout << "Ouch! You hit a wall!" << endl;
+    cout << "You stay in same location and lose your turn." << endl;
   }
   else if (person[2] > dimension) {
-    person[2] -= 1;
-    cout << "You have exceeded your allowable range." << endl;
-    cout << "Please wait until next people move" << endl;
-    return person;
+    person[2] = dimension;
+    cout << "Ouch! You hit a wall!" << endl;
+    cout << "You stay in same location and lose your turn." << endl;
   }
-  else {
-    return person;
-  }
+
+  return person;
 }
 
 //print current location of person
@@ -155,8 +156,11 @@ int moveCheck(string str) {
 
 //check if personA and personB meet
 int locCheck(int personA[], int personB[]) {
+  int total = personA[3] + personB[3];
+
   if(personA[1] == personB[1] && personA[2] == personB[2]) {
-    cout << "PersonA and PersonB met at the same location. The game is over." << endl;
+    cout << "\nPersonA and PersonB met at the same location. The game is over." << endl;
+    cout << "It took " << total << " turns for them to meet." << endl;
     return 1;
   }
   else {
@@ -167,7 +171,8 @@ int locCheck(int personA[], int personB[]) {
 //check if person exceed the maxMoves
 int maxmoveCheck(int personA[], int personB[], int maxMoves) {
   if(personA[3] + personB[3] == maxMoves) {
-    cout << "You exceed the movement times. The game is over." << endl;
+    cout << "\nYou have reached the maximum number of moves. Try again!" << endl;
+    cout << "The players moved " << maxMoves << " times and never met." << endl;
     return 1;
   }
   else {
@@ -180,9 +185,20 @@ int main() {
 
   string userString;
 
+  int moveA;
+  int moveB;
+  int end;
+
   //this is Dimension and maxMoves as referenced in the documentation
   int userDimension = -1;
   int maxMoves = -1;
+
+  cout << "This program automatically moves 2 players across a gameboard, the\n";
+  cout << "board is a classic (x,y) Cartesian coordinate system. Player A will start in\n";
+  cout << "the bottom left hand side and Player B will start at top right of the board. You\n";
+  cout << "will be prompted to choose how big the board will be and how many moves the\n";
+  cout << "computer will try before giving up. Have Fun.\n\n";
+
 
   /* Ask the user to enter a dimension*/
   while (userDimension == -1) {
@@ -210,18 +226,29 @@ int main() {
   int personB[] = {2, userDimension, userDimension, 0};
 
   while (1) {
+    cout << "\nPlayer A Turn\n";
+    cout << "_____________\n";
     roll(personA, userDimension);
-    int end = locCheck(personA, personB);
-    int moveA = maxmoveCheck(personA, personB, maxMoves);
-    if(end == 1 || moveA ==1) {
+
+    end = locCheck(personA, personB);
+    if(end == 1)
       break;
-    }
+
+    moveA = maxmoveCheck(personA, personB, maxMoves);
+    if(moveA == 1)
+      break;
+
+    cout << "\nPlayer B Turn\n";
+    cout << "_____________\n";
     roll(personB, userDimension);
-    end;
-    int moveB = maxmoveCheck(personA, personB, maxMoves);
-    if(end == 1 || moveB ==1) {
+
+    end = locCheck(personA, personB);
+    if(end == 1)
       break;
-    }
+
+    moveB = maxmoveCheck(personA, personB, maxMoves);
+    if(moveB == 1)
+      break;
   }
 
   return 0;
