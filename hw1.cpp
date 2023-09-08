@@ -165,8 +165,8 @@ int locCheck(int personA[], int personB[]) {
 }
 
 //check if person exceed the maxMoves
-int maxmoveCheck(int person[], int maxMoves) {
-  if(person[3] == maxMoves) {
+int maxmoveCheck(int personA[], int personB[], int maxMoves) {
+  if(personA[3] + personB[3] == maxMoves) {
     cout << "You exceed the movement times. The game is over." << endl;
     return 1;
   }
@@ -212,13 +212,13 @@ int main() {
   while (1) {
     roll(personA, userDimension);
     int end = locCheck(personA, personB);
-    int moveA = maxmoveCheck(personA, maxMoves);
+    int moveA = maxmoveCheck(personA, personB, maxMoves);
     if(end == 1 || moveA ==1) {
       break;
     }
     roll(personB, userDimension);
     end;
-    int moveB = maxmoveCheck(personA, maxMoves);
+    int moveB = maxmoveCheck(personA, personB, maxMoves);
     if(end == 1 || moveB ==1) {
       break;
     }
