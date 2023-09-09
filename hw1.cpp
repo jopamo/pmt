@@ -178,7 +178,7 @@ bool locCheck(int personA[], int personB[]) {
 bool maxmoveCheck(int personA[], int personB[], int maxMoves) {
   if(personA[3] + personB[3] == maxMoves) {
     cout << "\nYou have reached the maximum number of moves. Try again!" << endl;
-    cout << "The players moved " << maxMoves << " times and never met." << endl;
+    cout << "The players took " << maxMoves << " turns and never met." << endl;
     return 1;
   }
   return 0;
