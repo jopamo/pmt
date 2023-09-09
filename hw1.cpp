@@ -171,6 +171,7 @@ bool locCheck(int personA[], int personB[]) {
     cout << "It took " << total << " turns for them to meet." << endl;
     return 1;
   }
+
   return 0;
 }
 
@@ -181,6 +182,7 @@ bool maxmoveCheck(int personA[], int personB[], int maxMoves) {
     cout << "The players took " << maxMoves << " turns and never met." << endl;
     return 1;
   }
+
   return 0;
 }
 
@@ -202,7 +204,7 @@ int main() {
   cout << "will be prompted to choose how big the board will be and how many moves the\n";
   cout << "computer will try before giving up. Have Fun.\n\n";
 
-  /* Ask the user to enter a dimension*/
+  /* Ask the user to enter dimension*/
   while (userDimension == -1) {
     cout << "For the maximum coordinate of the square grid," << endl;
     cout << "Enter a number between 1 to 99: " << endl;
@@ -210,7 +212,7 @@ int main() {
     userDimension = dimCheck(userString);
   }
 
-  /* Ask the user to enter a maxMoves*/
+  /* Ask the user to enter maxMoves*/
   while (maxMoves == -1) {
     cout << "For the maximum number of turns," << endl;
     cout << "Enter a number between 1 to 1000000: " << endl;
