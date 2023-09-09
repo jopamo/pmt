@@ -152,29 +152,25 @@ int moveCheck(string str) {
 }
 
 //check if personA and personB meet
-int locCheck(int personA[], int personB[]) {
+bool locCheck(int personA[], int personB[]) {
   int total = personA[3] + personB[3];
 
   if(personA[1] == personB[1] && personA[2] == personB[2]) {
     cout << "\nPersonA and PersonB met at the same location. The game is over." << endl;
     cout << "It took " << total << " turns for them to meet." << endl;
-    return 0;
+    return 1;
   }
-  else {
-    return -1;
-  }
+  return 0;
 }
 
 //check if person exceed the maxMoves
-int maxmoveCheck(int personA[], int personB[], int maxMoves) {
+bool maxmoveCheck(int personA[], int personB[], int maxMoves) {
   if(personA[3] + personB[3] == maxMoves) {
     cout << "\nYou have reached the maximum number of moves. Try again!" << endl;
     cout << "The players moved " << maxMoves << " times and never met." << endl;
-    return 0;
+    return 1;
   }
-  else {
-    return -1;
-  }
+  return 0;
 }
 
 int main() {
@@ -182,9 +178,8 @@ int main() {
 
   string userString;
 
-  int moveA;
-  int moveB;
-  int end;
+  int maxReached = 0;
+  int didTheyMeet = 0;
 
   //this is Dimension and maxMoves as referenced in the documentation
   int userDimension = -1;
@@ -195,7 +190,6 @@ int main() {
   cout << "the bottom left hand side and Player B will start at top right of the board. You\n";
   cout << "will be prompted to choose how big the board will be and how many moves the\n";
   cout << "computer will try before giving up. Have Fun.\n\n";
-
 
   /* Ask the user to enter a dimension*/
   while (userDimension == -1) {
@@ -226,25 +220,21 @@ int main() {
     cout << "\nPlayer A Turn\n";
     cout << "_____________\n";
     roll(personA, userDimension);
-
-    end = locCheck(personA, personB);
-    if(end == 1)
+    didTheyMeet = locCheck(personA, personB);
+    if ( didTheyMeet == 1 )
       break;
-
-    moveA = maxmoveCheck(personA, personB, maxMoves);
-    if(moveA == 1)
+    maxReached = maxmoveCheck(personA, personB, maxMoves);
+    if ( maxReached == 1 )
       break;
 
     cout << "\nPlayer B Turn\n";
     cout << "_____________\n";
     roll(personB, userDimension);
-
-    end = locCheck(personA, personB);
-    if(end == 1)
+    didTheyMeet = locCheck(personA, personB);
+    if ( didTheyMeet == 1 )
       break;
-
-    moveB = maxmoveCheck(personA, personB, maxMoves);
-    if(moveB == 1)
+    maxReached = maxmoveCheck(personA, personB, maxMoves);
+    if ( maxReached == 1 )
       break;
   }
 
