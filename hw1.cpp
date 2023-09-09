@@ -160,8 +160,8 @@ bool locCheck(int personA[], int personB[]) {
 
   if(personA[1] == personB[1] && personA[2] == personB[2]) {
     cout << "\nPersonA and PersonB met at the same location. The game is over." << endl;
-    cout << "They met at: (" << personA[1] << "," <<personA[2] << ")" << endl;
-    cout << "It took " << total << " turns for them to meet." << endl;
+    cout << "\tThey met at: (" << personA[1] << "," <<personA[2] << ")" << endl;
+    cout << "\tIt took " << total << " turns for them to meet." << endl;
     return 1;
   }
 
@@ -172,8 +172,8 @@ bool locCheck(int personA[], int personB[]) {
 bool maxmoveCheck(int personA[], int personB[], int maxMoves) {
   if(personA[3] + personB[3] == maxMoves) {
     cout << "\nYou have reached the maximum number of moves. Try again!" << endl;
-    cout << "The people took " << maxMoves << " turns and never met." << endl;
-    cout << "PersonA ended up at (" << personA[1] << "," <<personA[2] << "),";
+    cout << "\tThe people took " << maxMoves << " turns and never met." << endl;
+    cout << "\tPersonA ended up at (" << personA[1] << "," <<personA[2] << "),";
     cout << " meanwhile, PersonB was at (" << personB[1] << "," <<personB[2] << ")" << endl;
     return 1;
   }
@@ -186,8 +186,8 @@ int main() {
 
   string userString;
 
-  int maxReached = 0;
-  int didTheyMeet = 0;
+  bool maxReached = 0;
+  bool didTheyMeet = 0;
 
   //this is Dimension and maxMoves as referenced in the documentation
   int userDimension = -1;
@@ -215,9 +215,9 @@ int main() {
     maxMoves = moveCheck(userString);
   }
 
-  cout <<"PersonA start point: (0,0)"<< endl;
+  cout <<"\nPersonA start point: (0,0)"<< endl;
   cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
-  cout <<"Let's start the game!" << endl;
+  cout <<"\nLet's go!" << endl;
 
   /*
   person[0] = distinguish between personA and personB
