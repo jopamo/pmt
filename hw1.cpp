@@ -1,10 +1,22 @@
 /*
 Programming language: C++
-Programmers: Paul Moses, Suhyun Lee
+Programmers: Suhyun Lee, Paul Moses
 Date: 08.09.23
 Name of class: CS4500-001
-Explanation of the program
-Description of the central data structure
+
+This program automatically moves 2 players across a gameboard, the
+board is a classic (x,y) Cartesian coordinate system. Player A will start in
+the bottom left hand side and Player B will start at top right of the board. You
+will be prompted to choose how big the board will be and how many moves the
+computer will try before giving up. Have Fun.
+
+*person[0] = distinguish between personA and personB
+*person[1] = x-axis
+*person[2] = y-axis
+*person[3] = number of moves
+int personA[] = {1, 0, 0, 0};
+int personB[] = {2, userDimension, userDimension, 0};
+
 External files: None
 */
 
@@ -15,7 +27,8 @@ using namespace std;
 int* wallCheck(int*, int);
 void curLocation(int*);
 
-//checks input string by char array and returns on first encountered non integer character from index 0
+//checks input string by char array and returns on first
+//encountered non integer character from index 0
 bool intCheck(string input) {
   if (input.size()==0)
     return false;
@@ -41,26 +54,32 @@ int str2int(string input) {
   return -1;
 }
 
-//rolls a pseudo random dice with supplied start/end values
+/*
+rolls a pseudo random dice between 0 and 4. north = 0, south = 1,
+east = 2, west = 3.
+*/
 int* roll(int person[], int dimension) {
   int dir = rand() % 4;
 
-  // north = 0, south = 1, east = 2, west = 3
+  // y+1
   if (dir == 0) {
     person[2]++;
     person[3]++;
     wallCheck(person, dimension);
   }
+  // y-1
   else if (dir == 1) {
     person[2]--;
     person[3]++;
     wallCheck(person, dimension);
   }
+  // x+1
   else if (dir == 2) {
     person[1]++;
     person[3]++;
     wallCheck(person, dimension);
   }
+  // x-1
   else if (dir == 3) {
     person[1]--;
     person[3]++;
@@ -73,6 +92,7 @@ int* roll(int person[], int dimension) {
   return person;
 }
 
+//prevents roll() from going out of bounds
 int* wallCheck(int person[], int dimension) {
   if (person[1] < 0) {
     person[1] = 0;
@@ -199,10 +219,12 @@ int main() {
   cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
   cout <<"Let's start the game!" << endl;
 
-  //person[0] = distinguish between personA and personB
-  //person[1] = x-axis
-  //person[2] = y-axis
-  //person[3] = number of moves
+  /*
+  person[0] = distinguish between personA and personB
+  person[1] = x-axis
+  person[2] = y-axis
+  person[3] = number of moves
+  */
   int personA[] = {1, 0, 0, 0};
   int personB[] = {2, userDimension, userDimension, 0};
 
