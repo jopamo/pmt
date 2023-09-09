@@ -55,8 +55,9 @@ int str2int(string input) {
 }
 
 /*
-rolls a pseudo random dice between 0 and 4. north = 0, south = 1,
-east = 2, west = 3.
+rolls a pseudo random dice between 0 and 4.
+
+north = 0, south = 1, east = 2, west = 3.
 */
 int* roll(int person[], int dimension) {
   int dir = rand() % 4;
@@ -128,13 +129,13 @@ int dimCheck(string str) {
   int x = str2int(str);
 
   if (x == -1)
-    cout << "This is not a number. Please write a number between 1 to 99." << endl;
+    cout << "\nThis is not a number. Please write a number between 1 to 99.\n" << endl;
   else if (x < 1) {
-    cout << "x has to be larger than 1. Please write a number between 1 to 99." << endl;
+    cout << "\nThe number has to be larger than 1. Please write a number between 1 to 99.\n" << endl;
     return -1;
   }
   else if (x > 99) {
-    cout << "Dimension has to smaller than 100. Please write a number between 1 to 99." << endl;
+    cout << "\nDimension has to smaller than 100. Please write a number between 1 to 99.\n" << endl;
     return -1;
   }
 
@@ -147,13 +148,13 @@ int moveCheck(string str) {
   int x = str2int(str);
 
   if(x == -1)
-    cout << "This is not a number. Please write a number between 1 to 1000000." << endl;
+    cout << "\nThis is not a number. Please write a number between 1 to 1000000.\n" << endl;
   else if (x < 1) {
-    cout << "Dimension has to be larger than 1. Please write a number between 1 to 1000000." << endl;
+    cout << "\nDimension has to be larger than 1. Please write a number between 1 to 1000000.\n" << endl;
     return -1;
   }
   else if (x > 1000000) {
-    cout << "Dimension has to smaller than 1000000. Please write a number between 1 to 1000000." << endl;
+    cout << "\nDimension has to smaller than 1000000. Please write a number between 1 to 1000000.\n" << endl;
     return -1;
   }
 
@@ -203,14 +204,16 @@ int main() {
 
   /* Ask the user to enter a dimension*/
   while (userDimension == -1) {
-    cout << "Enter a number between 1 to 99 for dimension: ";
+    cout << "For the maximum coordinate of the square grid," << endl;
+    cout << "Enter a number between 1 to 99: " << endl;
     cin >> userString;
     userDimension = dimCheck(userString);
   }
 
   /* Ask the user to enter a maxMoves*/
   while (maxMoves == -1) {
-    cout << "Enter a number between 1 to 1000000 for maximum movements: ";
+    cout << "For the maximum number of turns," << endl;
+    cout << "Enter a number between 1 to 1000000: " << endl;
     cin >> userString;
     maxMoves = moveCheck(userString);
   }
