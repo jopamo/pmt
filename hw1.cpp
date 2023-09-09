@@ -4,9 +4,9 @@ Programmers: Suhyun Lee, Paul Moses
 Date: 08.09.23
 Name of class: CS4500-001
 
-This program automatically moves 2 players across a gameboard, the
-board is a classic (x,y) Cartesian coordinate system. Player A will start in
-the bottom left hand side and Player B will start at top right of the board. You
+This program automatically moves 2 people across a gameboard, the
+board is a classic (x,y) Cartesian coordinate system. PersonA will start in
+the bottom left hand side and PersonB will start at top right of the board. You
 will be prompted to choose how big the board will be and how many moves the
 computer will try before giving up. Have Fun.
 
@@ -24,7 +24,7 @@ External files: None
 
 using namespace std;
 
-int* wallCheck(int*, int);
+void wallCheck(int*, int);
 void curLocation(int*);
 
 //checks input string by char array and returns on first
@@ -86,29 +86,22 @@ int* roll(int person[], int dimension) {
     person[3]++;
     wallCheck(person, dimension);
   }
-  else {
+  else
     cerr << "Random Number Generator Error" << endl;
-  }
 
   return person;
 }
 
 //prevents roll() from going out of bounds
-int* wallCheck(int person[], int dimension) {
-  if (person[1] < 0) {
+void wallCheck(int person[], int dimension) {
+  if (person[1] < 0)
     person[1] = 0;
-  }
-  else if (person[1] > dimension) {
+  else if (person[1] > dimension)
     person[1] = dimension;
-  }
-  else if (person[2] < 0) {
+  else if (person[2] < 0)
     person[2] = 0;
-  }
-  else if (person[2] > dimension) {
+  else if (person[2] > dimension)
     person[2] = dimension;
-  }
-
-  return person;
 }
 
 //print current location of person
@@ -128,8 +121,9 @@ void curLocation(int person[]) {
 int dimCheck(string str) {
   int x = str2int(str);
 
-  if (x == -1)
+  if (x == -1) {
     cout << "\nThis is not a number. Please write a number between 1 to 99.\n" << endl;
+  }
   else if (x < 1) {
     cout << "\nThe number has to be larger than 1. Please write a number between 1 to 99.\n" << endl;
     return -1;
@@ -138,7 +132,6 @@ int dimCheck(string str) {
     cout << "\nDimension has to smaller than 100. Please write a number between 1 to 99.\n" << endl;
     return -1;
   }
-
   return x;
 }
 
@@ -179,7 +172,9 @@ bool locCheck(int personA[], int personB[]) {
 bool maxmoveCheck(int personA[], int personB[], int maxMoves) {
   if(personA[3] + personB[3] == maxMoves) {
     cout << "\nYou have reached the maximum number of moves. Try again!" << endl;
-    cout << "The players took " << maxMoves << " turns and never met." << endl;
+    cout << "The people took " << maxMoves << " turns and never met." << endl;
+    cout << "PersonA ended up at (" << personA[1] << "," <<personA[2] << "),";
+    cout << " meanwhile, PersonB was at (" << personB[1] << "," <<personB[2] << ")" << endl;
     return 1;
   }
 
@@ -198,9 +193,9 @@ int main() {
   int userDimension = -1;
   int maxMoves = -1;
 
-  cout << "This program automatically moves 2 players across a gameboard, the\n";
-  cout << "board is a classic (x,y) Cartesian coordinate system. Player A will start in\n";
-  cout << "the bottom left hand side and Player B will start at top right of the board. You\n";
+  cout << "This program automatically moves 2 people across a gameboard, the\n";
+  cout << "board is a classic (x,y) Cartesian coordinate system. PersonA will start in\n";
+  cout << "the bottom left hand side and PersonB will start at top right of the board. You\n";
   cout << "will be prompted to choose how big the board will be and how many moves the\n";
   cout << "computer will try before giving up. Have Fun.\n\n";
 
