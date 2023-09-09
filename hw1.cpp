@@ -1,3 +1,13 @@
+/*
+Programming language: C++
+Programmers: Paul Moses, Suhyun Lee
+Date: 08.09.23
+Name of class: CS4500-001
+Explanation of the program
+Description of the central data structure
+External files: None
+*/
+
 #include <iostream>
 
 using namespace std;
@@ -35,43 +45,30 @@ int str2int(string input) {
 int* roll(int person[], int dimension) {
   int dir = rand() % 4;
 
-  cout << "Your current location is:" << endl;
-  curLocation(person);
   // north = 0, south = 1, east = 2, west = 3
   if (dir == 0) {
     person[2]++;
     person[3]++;
-
-    cout << "Move to North!" << endl;
     wallCheck(person, dimension);
   }
   else if (dir == 1) {
     person[2]--;
     person[3]++;
-
-    cout << "Move to South!" << endl;
     wallCheck(person, dimension);
   }
   else if (dir == 2) {
     person[1]++;
     person[3]++;
-
-    cout << "Move to East!" << endl;
     wallCheck(person, dimension);
   }
   else if (dir == 3) {
     person[1]--;
     person[3]++;
-
-    cout << "Move to West!" << endl;
     wallCheck(person, dimension);
   }
   else {
-    cout << "random generator error" << endl;
+    cerr << "Random Number Generator Error" << endl;
   }
-
-  cout << "Your new location is:" << endl;
-  curLocation(person);
 
   return person;
 }
@@ -79,23 +76,15 @@ int* roll(int person[], int dimension) {
 int* wallCheck(int person[], int dimension) {
   if (person[1] < 0) {
     person[1] = 0;
-    cout << "Ouch! You hit a wall!" << endl;
-    cout << "You stay in same location and lose your turn." << endl;
   }
   else if (person[1] > dimension) {
     person[1] = dimension;
-    cout << "Ouch! You hit a wall!" << endl;
-    cout << "You stay in same location and lose your turn." << endl;
   }
   else if (person[2] < 0) {
     person[2] = 0;
-    cout << "Ouch! You hit a wall!" << endl;
-    cout << "You stay in same location and lose your turn." << endl;
   }
   else if (person[2] > dimension) {
     person[2] = dimension;
-    cout << "Ouch! You hit a wall!" << endl;
-    cout << "You stay in same location and lose your turn." << endl;
   }
 
   return person;
@@ -157,6 +146,7 @@ bool locCheck(int personA[], int personB[]) {
 
   if(personA[1] == personB[1] && personA[2] == personB[2]) {
     cout << "\nPersonA and PersonB met at the same location. The game is over." << endl;
+    cout << "They met at: (" << personA[1] << "," <<personA[2] << ")" << endl;
     cout << "It took " << total << " turns for them to meet." << endl;
     return 1;
   }
@@ -217,8 +207,6 @@ int main() {
   int personB[] = {2, userDimension, userDimension, 0};
 
   while (1) {
-    cout << "\nPlayer A Turn\n";
-    cout << "_____________\n";
     roll(personA, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if ( didTheyMeet == 1 )
@@ -227,8 +215,6 @@ int main() {
     if ( maxReached == 1 )
       break;
 
-    cout << "\nPlayer B Turn\n";
-    cout << "_____________\n";
     roll(personB, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if ( didTheyMeet == 1 )
