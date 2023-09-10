@@ -66,28 +66,26 @@ int* roll(int person[], int dimension) {
   if (dir == 0) {
     person[2]++;
     person[3]++;
-    wallCheck(person, dimension);
   }
   // y-1
   else if (dir == 1) {
     person[2]--;
     person[3]++;
-    wallCheck(person, dimension);
   }
   // x+1
   else if (dir == 2) {
     person[1]++;
     person[3]++;
-    wallCheck(person, dimension);
   }
   // x-1
   else if (dir == 3) {
     person[1]--;
     person[3]++;
-    wallCheck(person, dimension);
   }
   else
     cerr << "Random Number Generator Error" << endl;
+
+  wallCheck(person, dimension);
 
   return person;
 }
@@ -202,15 +200,15 @@ int main() {
   /* Ask the user to enter dimension*/
   while (userDimension == -1) {
     cout << "For the maximum coordinate of the square grid," << endl;
-    cout << "Enter a number between 1 to 99: " << endl;
+    cout << "Enter a number between 1 to 99: ";
     cin >> userString;
     userDimension = dimCheck(userString);
   }
 
   /* Ask the user to enter maxMoves*/
   while (maxMoves == -1) {
-    cout << "For the maximum number of turns," << endl;
-    cout << "Enter a number between 1 to 1000000: " << endl;
+    cout << "\nFor the maximum number of turns," << endl;
+    cout << "Enter a number between 1 to 1000000: ";
     cin >> userString;
     maxMoves = moveCheck(userString);
   }
