@@ -55,11 +55,11 @@ int str2int(string input) {
 }
 
 /*
-rolls a pseudo random dice between 0 and 4.
+rolls a pseudo random dice between 0 and 3.
 
 north = 0, south = 1, east = 2, west = 3.
 */
-int* roll(int person[], int dimension) {
+int* rollFour(int person[], int dimension) {
   int dir = rand() % 4;
 
   // y+1
@@ -80,6 +80,68 @@ int* roll(int person[], int dimension) {
   // x-1
   else if (dir == 3) {
     person[1]--;
+    person[3]++;
+  }
+  else
+    cerr << "Random Number Generator Error" << endl;
+
+  wallCheck(person, dimension);
+
+  return person;
+}
+
+/*
+rolls a pseudo random dice between 0 and 7.
+
+north = 0, south = 1, east = 2, west = 3.
+
+ne= 4 nw= 5 se= 6 sw= 7
+*/
+int* rollEight(int person[], int dimension) {
+  int dir = rand() % 8;
+
+  // y+1
+  if (dir == 0) {
+    person[2]++;
+    person[3]++;
+  }
+  // y-1
+  else if (dir == 1) {
+    person[2]--;
+    person[3]++;
+  }
+  // x+1
+  else if (dir == 2) {
+    person[1]++;
+    person[3]++;
+  }
+  // x-1
+  else if (dir == 3) {
+    person[1]--;
+    person[3]++;
+  }
+  // x+1 y+1
+  else if (dir == 4) {
+    person[1]++;
+    person[2]++;
+    person[3]++;
+  }
+  // x-1 y+1
+  else if (dir == 5) {
+    person[1]--;
+    person[2]++;
+    person[3]++;
+  }
+  // x+1 y-1
+  else if (dir == 6) {
+    person[1]++;
+    person[2]--;
+    person[3]++;
+  }
+  // x-1 y-1
+  else if (dir == 7) {
+    person[1]--;
+    person[2]--;
     person[3]++;
   }
   else
@@ -227,7 +289,7 @@ int main() {
   int personB[] = {2, userDimension, userDimension, 0};
 
   while (1) {
-    roll(personA, userDimension);
+    rollFour(personA, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if ( didTheyMeet == 1 )
       break;
@@ -235,7 +297,7 @@ int main() {
     if ( maxReached == 1 )
       break;
 
-    roll(personB, userDimension);
+    rollFour(personB, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if ( didTheyMeet == 1 )
       break;
