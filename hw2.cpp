@@ -272,6 +272,9 @@ int main() {
   int userDimension = -1;
   int maxMoves = -1;
 
+  int personA[] = {1, 0, 0, 0, 0};
+  int personB[] = {2, userDimension, userDimension, 0, 0};
+
   cout << "This program automatically moves 2 people across a gameboard, the\n";
   cout << "board is a classic (x,y) Cartesian coordinate system. PersonA will start in\n";
   cout << "the bottom left hand side and PersonB will start at top right of the board. You\n";
@@ -297,15 +300,6 @@ int main() {
   cout <<"\nPersonA start point: (0,0)"<< endl;
   cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
   cout <<"\nLet's go!" << endl;
-
-  /*
-  person[0] = distinguish between personA and personB
-  person[1] = x-axis
-  person[2] = y-axis
-  person[3] = number of moves
-  */
-  int personA[] = {1, 0, 0, 0, 0};
-  int personB[] = {2, userDimension, userDimension, 0, 0};
 
   while (1) {
     rollEight(personA, userDimension, personA[3], personA[4]);
