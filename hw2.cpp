@@ -1,3 +1,25 @@
+/*
+Programming language: C++
+Programmers: Mahabu Matin, Efrata Serbessa, Paul Moses
+
+Date: 08.24.23
+Name of class: CS4500-001
+
+This program automatically moves 2 people across a gameboard, the
+board is a classic (x,y) Cartesian coordinate system. PersonA will start in
+the bottom left hand side and PersonB will start at top right of the board. You
+will be prompted to choose how big the board will be and how many moves the
+computer will try before giving up. Have Fun.
+
+*person[0] = distinguish between personA and personB
+*person[1] = x-axis
+*person[2] = y-axis
+*person[3] = number of moves
+int personA[] = {1, 0, 0, 0};
+int personB[] = {2, userDimension, userDimension, 0};
+
+External files: None
+*/
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
