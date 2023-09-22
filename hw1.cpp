@@ -5,7 +5,6 @@
 
 using namespace std;
 
-void wallCheck(int*, int);
 void curLocation(int*);
 
 // Check if personA and personB meet
@@ -116,30 +115,18 @@ int* rollEight(int person[], int dimension, int& totalMoves, int& wallHits) {
       continue;
     }
 
-    wallCheck(person, dimension);
-
     if (!(person[1] >= 0 && person[1] <= dimension && person[2] >= 0 && person[2] <= dimension)) {
       person[1] = originalX;
       person[2] = originalY;
       person[3]--;
       person[4]++;
+      continue;
     }
 
     break;
   }
 
   return person;
-}
-
-void wallCheck(int person[], int dimension) {
-  if (person[1] < 0)
-    person[1] = 0;
-  else if (person[1] > dimension)
-    person[1] = dimension;
-  else if (person[2] < 0)
-    person[2] = 0;
-  else if (person[2] > dimension)
-    person[2] = dimension;
 }
 
 void curLocation(int person[]) {
