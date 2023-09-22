@@ -11,12 +11,13 @@ the bottom left hand side and PersonB will start at top right of the board. You
 will be prompted to choose how big the board will be and how many moves the
 computer will try before giving up. Have Fun.
 
-*person[0] = distinguish between personA and personB
+*person[0] = distinguish between personA and personB (unused)
 *person[1] = x-axis
 *person[2] = y-axis
 *person[3] = number of moves
-int personA[] = {1, 0, 0, 0};
-int personB[] = {2, userDimension, userDimension, 0};
+*person[3] = wall hits
+int personA[] = {1, 0, 0, 0, 0};
+int personB[] = {2, userDimension, userDimension, 0, 0};
 
 External files: None
 */
