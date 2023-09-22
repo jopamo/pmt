@@ -81,6 +81,49 @@ int str2int(string input) {
   return -1;
 }
 
+/*
+rolls a pseudo random dice between 0 and 3
+
+north = 0, south = 1, east = 2, west = 3.
+*/
+int* rollFour(int person[], int dimension) {
+  int dir = rand() % 4;
+
+  // y+1
+  if (dir == 0) {
+    person[2]++;
+    person[3]++;
+  }
+  // y-1
+  else if (dir == 1) {
+    person[2]--;
+    person[3]++;
+  }
+  // x+1
+  else if (dir == 2) {
+    person[1]++;
+    person[3]++;
+  }
+  // x-1
+  else if (dir == 3) {
+    person[1]--;
+    person[3]++;
+  }
+  else
+    cerr << "Random Number Generator Error" << endl;
+
+  wallCheck(person, dimension);
+
+  return person;
+}
+
+/*
+rolls a pseudo random dice between 0 and 7.
+
+N = 0 | S = 1 | E = 2 | W = 3
+
+NE = 4 | NW = 5 | SE= 6 | SW = 7
+*/
 int* rollEight(int person[], int dimension, int& totalMoves, int& wallHits) {
   while (true) {
     int dir = rand() % 8;
