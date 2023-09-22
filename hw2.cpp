@@ -110,10 +110,10 @@ int* rollFour(int person[], int dimension) {
     cerr << "Random Number Generator Error" << endl;
 
   if (person[1] < 0 || person[1] > dimension || person[2] < 0 || person[2] > dimension) {
-      person[1] = originalX;
-      person[2] = originalY;
-      person[4]++;
-    }
+    person[1] = originalX;
+    person[2] = originalY;
+    person[4]++;
+  }
 
   return person;
 }
@@ -125,7 +125,7 @@ N = 0 | S = 1 | E = 2 | W = 3
 
 NE = 4 | NW = 5 | SE= 6 | SW = 7
 */
-int* rollEight(int person[], int dimension, int& totalMoves, int& wallHits) {
+int* rollEight(int person[], int dimension) {
   while (true) {
     int dir = rand() % 8;
 
@@ -184,7 +184,9 @@ int* rollEight(int person[], int dimension, int& totalMoves, int& wallHits) {
     if (person[1] < 0 || person[1] > dimension || person[2] < 0 || person[2] > dimension) {
       person[1] = originalX;
       person[2] = originalY;
+      person[3]--;
       person[4]++;
+      continue;
     }
 
     break;
@@ -272,9 +274,6 @@ int main() {
   int userDimension = -1;
   int maxMoves = -1;
 
-  int personA[] = {1, 0, 0, 0, 0};
-  int personB[] = {2, userDimension, userDimension, 0, 0};
-
   cout << "This program automatically moves 2 people across a gameboard, the\n";
   cout << "board is a classic (x,y) Cartesian coordinate system. PersonA will start in\n";
   cout << "the bottom left hand side and PersonB will start at top right of the board. You\n";
@@ -301,8 +300,12 @@ int main() {
   cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
   cout <<"\nLet's go!" << endl;
 
+  int personA[] = {1, 0, 0, 0, 0};
+  int personB[] = {2, userDimension, userDimension, 0, 0};
+
   while (1) {
-    rollEight(personA, userDimension, personA[3], personA[4]);
+    //rollFour(personA, userDimension);
+    rollEight(personA, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if (didTheyMeet == 1)
       break;
@@ -310,7 +313,8 @@ int main() {
     if (maxReached == 1)
       break;
 
-    rollEight(personB, userDimension, personB[3], personB[4]);
+    //rollFour(personB, userDimension);
+    rollEight(personB, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if (didTheyMeet == 1)
       break;
