@@ -299,8 +299,8 @@ int main() {
   cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
   cout <<"\nLet's go!" << endl;
 
-  int personA[] = {1, 0, 0, 0, 0};
-  int personB[] = {2, userDimension, userDimension, 0, 0};
+  int personA[] = {0, 0, 0, 0};
+  int personB[] = {userDimension, userDimension, 0, 0};
 
   while (1) {
     //rollFour(personA, userDimension);
