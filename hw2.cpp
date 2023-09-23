@@ -34,15 +34,34 @@ struct Experiment {
     int protocol;
     int maxMovesBeforeGivingUp;
     int repetitions;
-    int dimensions;
+    int d0, d1, d2, d3, d4;
     
 };
 
 Experiment readingExpData(ifstream& inputFile){
     Experiment experiment;
+    string line;
     char comma;
-    inputFile >> experiment.dimensions >> comma >> experiment.protocol >> comma >> experiment.maxMovesBeforeGivingUp
-    >> comma >> experiment.repetitions;
+    
+    //first line (dimensions)
+    if (getline(inputFile, line)) {
+        istringstream iss(line);
+        if (!(iss >> experiment.d0 >> comma >> experiment.d1 >> comma >> experiment.d2
+        >> comma >> experiment.d3 >> comma >> experiment.d4)) {
+            cerr << "Error reading first line!" << endl;
+        }
+    } else {
+        cerr << "Empty file!" << endl;
+    }
+    
+    //second line
+    getline(inputFile, line);
+    istringstream iss(line);
+    if (!(iss >> experiment.protocol >> comma >> experiment.maxMovesBeforeGivingUp
+    >> comma >> experiment.repetitions)){
+        cerr << "Error reading second line!" << endl;
+    }
+    
 
     return experiment;
 }
@@ -363,9 +382,7 @@ int main() {
       cerr << "unable to open file." << endl;
   }
   
-  int numOfExperiments;
-  char comma;
-  inputFile >> numOfExperiments;
+  /*
   inputFile >> comma;
   
   Experiment* experiments = new Experiment[numOfExperiments];
@@ -375,14 +392,20 @@ int main() {
       experiments[i] = readingExpData(inputFile);
   }
   inputFile.close();
+  */
   
-  for (int i = 0; i < numOfExperiments; i++){
-      cout << experiments[i].dimensions << endl;
-      cout << experiments[i].protocol << endl;
-      cout << experiments[i].maxMovesBeforeGivingUp << endl;
-      cout << experiments[i].repetitions << endl;
-      cout << endl;
-  }
+  Experiment experiment = readingExpData(inputFile);
+  
+  
+  cout << experiment.d0 << endl;
+  cout << experiment.d1 << endl;
+  cout << experiment.d2 << endl;
+  cout << experiment.d3 << endl;
+  cout << experiment.d4 << endl;
+  cout << experiment.protocol << endl;
+  cout << experiment.maxMovesBeforeGivingUp << endl;
+  cout << experiment.repetitions << endl;
+  cout << endl;
   
 
   return 0;
