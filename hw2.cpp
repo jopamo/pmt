@@ -29,22 +29,48 @@ External files: None
 
 using namespace std;
 
-bool openFile(const string& filename) {
+struct Experiment {
+    int protocol;
+    int maxMovesBeforeGivingUp;
+    int repetitions;
+    int dimensions;
+    
+};
+
+Experiment readingExpData(ifstream& inputFile){
+    Experiment experiment;
+    inputFile >> experiment.dimensions >> experiment.protocol >> experiment.maxMovesBeforeGivingUp
+    >> experiment.repetitions;
+    
+    return experiment;
+}
+
+Experiment* openFile(const string& filename) {
   string line;
   ifstream inputFile(filename);
 
   if (!inputFile.is_open()) {
     cerr << "Error: Unable to open file " << filename << endl;
-    return false;
   }
-
+  /*
   while (getline(inputFile, line)) {
     cout << line << endl;
   }
 
   inputFile.close();
-
-  return true;
+  */
+  
+  int numOfExperiments;
+  inputFile >> numOfExperiments;
+  Experiment* experiments = new Experiment[numOfExperiments];
+  
+  int* fileContentInfo = new int[numOfExperiments * 3];
+  for (int i = 0; i < numOfExperiments; i++){
+      experiments[i] = readingExpData(inputFile);
+  }
+  
+  inputFile.close();
+  return experiments;
 }
 
 //checks input string by char array and returns on first
@@ -329,9 +355,11 @@ int main() {
   cout << "\tTotal moves for PersonB: " << personB[2] << endl;
 
   string filename = "indata.txt";
-
-  if (openFile(filename)) {
+  
+  Experiment* experiments = openFile(filename);
+  if (experiments != nullptr) {
     cout << "success open file" << endl;
+    cout << experiments[0].dimensions << experiments[0].protocol << experiments[0].maxMovesBeforeGivingUp<< endl;
   }
   else {
     cerr << "fail open file" << endl;
