@@ -43,9 +43,7 @@ Experiment readingExpData(ifstream& inputFile){
     char comma;
     inputFile >> experiment.dimensions >> comma >> experiment.protocol >> comma >> experiment.maxMovesBeforeGivingUp
     >> comma >> experiment.repetitions;
-    
-    inputFile.close();
-    
+
     return experiment;
 }
 
@@ -365,11 +363,26 @@ int main() {
       cerr << "unable to open file." << endl;
   }
   
-  Experiment experiments = readingExpData(inputFile);
+  int numOfExperiments;
+  char comma;
+  inputFile >> numOfExperiments;
+  inputFile >> comma;
   
-  cout << experiments.dimensions << " " << experiments.protocol << " "
-  << experiments.maxMovesBeforeGivingUp << " " << experiments.repetitions << endl;
+  Experiment* experiments = new Experiment[numOfExperiments];
+  int* results = new int[numOfExperiments * 3];
   
+  for (int i = 0; i < numOfExperiments; i++){
+      experiments[i] = readingExpData(inputFile);
+  }
+  inputFile.close();
+  
+  for (int i = 0; i < numOfExperiments; i++){
+      cout << experiments[i].dimensions << endl;
+      cout << experiments[i].protocol << endl;
+      cout << experiments[i].maxMovesBeforeGivingUp << endl;
+      cout << experiments[i].repetitions << endl;
+      cout << endl;
+  }
   
 
   return 0;
