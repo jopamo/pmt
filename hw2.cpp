@@ -26,6 +26,7 @@ External files: None
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -39,39 +40,35 @@ struct Experiment {
 
 Experiment readingExpData(ifstream& inputFile){
     Experiment experiment;
-    inputFile >> experiment.dimensions >> experiment.protocol >> experiment.maxMovesBeforeGivingUp
-    >> experiment.repetitions;
+    char comma;
+    inputFile >> experiment.dimensions >> comma >> experiment.protocol >> comma >> experiment.maxMovesBeforeGivingUp
+    >> comma >> experiment.repetitions;
+    
+    inputFile.close();
     
     return experiment;
 }
 
-Experiment* openFile(const string& filename) {
+/*
+bool openFile(const string& filename) {
   string line;
   ifstream inputFile(filename);
 
   if (!inputFile.is_open()) {
     cerr << "Error: Unable to open file " << filename << endl;
+    return false;
   }
-  /*
+  
   while (getline(inputFile, line)) {
     cout << line << endl;
   }
 
   inputFile.close();
-  */
   
-  int numOfExperiments;
-  inputFile >> numOfExperiments;
-  Experiment* experiments = new Experiment[numOfExperiments];
-  
-  int* fileContentInfo = new int[numOfExperiments * 3];
-  for (int i = 0; i < numOfExperiments; i++){
-      experiments[i] = readingExpData(inputFile);
-  }
-  
-  inputFile.close();
-  return experiments;
+  return true;
 }
+
+*/
 
 //checks input string by char array and returns on first
 //encountered non integer character from index 0
@@ -353,17 +350,27 @@ int main() {
 
   cout << "\tTotal moves for PersonA: " << personA[2] << endl;
   cout << "\tTotal moves for PersonB: " << personB[2] << endl;
-
-  string filename = "indata.txt";
   
-  Experiment* experiments = openFile(filename);
-  if (experiments != nullptr) {
-    cout << "success open file" << endl;
-    cout << experiments[0].dimensions << experiments[0].protocol << experiments[0].maxMovesBeforeGivingUp<< endl;
+ 
+  //if file can't open
+  string filename = "indata.txt";
+  /*
+  if (!openFile(filename)) {
+    cout << "fail open file" << endl;
   }
-  else {
-    cerr << "fail open file" << endl;
+  
+  */
+  ifstream inputFile(filename);
+  if (!inputFile.is_open()){
+      cerr << "unable to open file." << endl;
   }
+  
+  Experiment experiments = readingExpData(inputFile);
+  
+  cout << experiments.dimensions << " " << experiments.protocol << " "
+  << experiments.maxMovesBeforeGivingUp << " " << experiments.repetitions << endl;
+  
+  
 
   return 0;
 }
