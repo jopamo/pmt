@@ -260,6 +260,39 @@ void intro() {
   cout << "computer will try before giving up. Have Fun.\n\n";
 }
 
+void simulate(int proto, int personA[],int personB[], int dimension, int maxMoves) {
+  bool didTheyMeet;
+  int maxReached;
+
+  personA[0] = 0;
+  personA[1] = 0;
+  personA[2] = 0;
+  personA[3] = 0;
+
+  personB[0] = dimension;
+  personB[1] = dimension;
+  personB[2] = 0;
+  personB[3] = 0;
+
+  while (1) {
+    roll(proto, personA, dimension);
+    didTheyMeet = locCheck(personA, personB);
+    if (didTheyMeet == 1)
+      break;
+    maxReached = maxmoveCheck(personA, personB, maxMoves, personA[2], personB[2]);
+    if (maxReached == 1)
+      break;
+
+    roll(proto, personB, dimension);
+    didTheyMeet = locCheck(personA, personB);
+    if (didTheyMeet == 1)
+      break;
+    maxReached = maxmoveCheck(personA, personB, maxMoves, personA[2], personB[2]);
+    if (maxReached == 1)
+      break;
+  }
+}
+
 int main() {
   intro();
 
@@ -317,23 +350,7 @@ int main() {
   int personA[] = {0, 0, 0, 0};
   int personB[] = {userDimension, userDimension, 0, 0};
 
-  while (1) {
-    roll(8, personA, userDimension);
-    didTheyMeet = locCheck(personA, personB);
-    if (didTheyMeet == 1)
-      break;
-    maxReached = maxmoveCheck(personA, personB, maxMoves, personA[2], personB[2]);
-    if (maxReached == 1)
-      break;
-
-    roll(8, personB, userDimension);
-    didTheyMeet = locCheck(personA, personB);
-    if (didTheyMeet == 1)
-      break;
-    maxReached = maxmoveCheck(personA, personB, maxMoves, personA[2], personB[2]);
-    if (maxReached == 1)
-      break;
-  }
+  simulate(8, personA, personB, userDimension, maxMoves);
 
   cout << "Total wall hits for PersonA: " << personA[3] << endl;
   cout << "Total wall hits for PersonB: " << personB[3] << endl;
