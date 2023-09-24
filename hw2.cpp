@@ -318,31 +318,32 @@ int main() {
     userDimension = experiments[0].values[0];
     maxMoves = experiments[1].values[1];
 
-    cout << "success open file" << endl;
+    int simulation = simulate(8, personA, personB, userDimension, maxMoves);
 
-    cout <<"\nPersonA start point: (0,0)"<< endl;
-    cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
-    cout <<"\nLet's go!" << endl;
+    if (simulation == 0) {
+      cout << "success open file" << endl;
 
-    simulate(8, personA, personB, userDimension, maxMoves);
+      cout <<"\nPersonA start point: (0,0)"<< endl;
+      cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
+      cout <<"\nLet's go!" << endl;
 
-    cout << "Total wall hits for PersonA: " << personA[3] << endl;
-    cout << "Total wall hits for PersonB: " << personB[3] << endl;
+      cout << "\tTotal wall hits for PersonA: " << personA[3] << endl;
+      cout << "\tTotal wall hits for PersonB: " << personB[3] << endl;
 
-    cout << "\tTotal moves for PersonA: " << personA[2] << endl;
-    cout << "\tTotal moves for PersonB: " << personB[2] << endl;
+      cout << "\tTotal moves for PersonA: " << personA[2] << endl;
+      cout << "\tTotal moves for PersonB: " << personB[2] << endl;
 
-    for (int i = 0; i < experiments.size(); ++i) {
-      cout << "Line " << i + 1 << " - Values: ";
-      for (int j = 0; j < experiments[i].values.size(); ++j) {
-        cout << "Value" << j << ": " << experiments[i].values[j] << " ";
+      for (int i = 0; i < experiments.size(); ++i) {
+        cout << "Line " << i + 1 << " - Values: ";
+        for (int j = 0; j < experiments[i].values.size(); ++j) {
+          cout << "Value" << j << ": " << experiments[i].values[j] << " ";
+        }
+        cout << endl;
       }
-      cout << endl;
+    }
+    else {
+      cerr << "fail open file" << endl;
     }
   }
-  else {
-    cerr << "fail open file" << endl;
-  }
-
   return 0;
 }
