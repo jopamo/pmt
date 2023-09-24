@@ -99,12 +99,8 @@ bool intCheck(string str) {
 }
 
 /*
-rolls a pseudo random dice between 0 and 3
-
-rolls a pseudo random dice between 0 and 7.
-
+rolls a pseudo random dice representing either 4 directions or 8
 N = 0 | S = 1 | E = 2 | W = 3
-
 NE = 4 | NW = 5 | SE= 6 | SW = 7
 */
 int* roll(int proto, int person[], int dimension) {
@@ -256,7 +252,6 @@ void intro() {
   cout << "will be prompted to choose how big the board will be and how many moves the\n";
   cout << "computer will try before giving up. Have Fun.\n\n";
 }
-
 
 int simulate(int proto, int personA[],int personB[], int dimension, int moves) {
   int userDimension = dimCheck(dimension);
