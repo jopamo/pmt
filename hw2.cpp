@@ -99,59 +99,28 @@ bool intCheck(string str) {
 /*
 rolls a pseudo random dice between 0 and 3
 
-north = 0, south = 1, east = 2, west = 3.
-*/
-int* rollFour(int person[], int dimension) {
-  int originalX = person[0];
-  int originalY = person[1];
-
-  int dir = rand() % 4;
-
-  // y+1
-  if (dir == 0) {
-    person[1]++;
-    person[2]++;
-  }
-  // y-1
-  else if (dir == 1) {
-    person[1]--;
-    person[2]++;
-  }
-  // x+1
-  else if (dir == 2) {
-    person[0]++;
-    person[2]++;
-  }
-  // x-1
-  else if (dir == 3) {
-    person[0]--;
-    person[2]++;
-  }
-  else
-    cerr << "Random Number Generator Error" << endl;
-
-  if (person[0] < 0 || person[0] > dimension || person[1] < 0 || person[1] > dimension) {
-    person[0] = originalX;
-    person[1] = originalY;
-    person[3]++;
-  }
-
-  return person;
-}
-
-/*
 rolls a pseudo random dice between 0 and 7.
 
 N = 0 | S = 1 | E = 2 | W = 3
 
 NE = 4 | NW = 5 | SE= 6 | SW = 7
 */
-int* rollEight(int person[], int dimension) {
-  while (true) {
-    int dir = rand() % 8;
+int* roll(int proto, int person[], int dimension) {
+  int originalX = person[0];
+  int originalY = person[1];
 
-    int originalX = person[0];
-    int originalY = person[1];
+  while (true) {
+    int dir = -1;
+
+    if (proto == 4) {
+      dir = rand() % 4;
+    }
+    else if (proto == 8) {
+      dir = rand() % 8;
+    }
+    else {
+      cerr << "Error: Invalid number for protocol, 4 or 8 only!" << endl;
+    }
 
     // y+1
     if (dir == 0) {
@@ -173,7 +142,7 @@ int* rollEight(int person[], int dimension) {
       person[0]--;
       person[2]++;
     }
-    // x+1 y+1
+     // x+1 y+1
     else if (dir == 4) {
       person[0]++;
       person[1]++;
@@ -205,15 +174,19 @@ int* rollEight(int person[], int dimension) {
     if (person[0] < 0 || person[0] > dimension || person[1] < 0 || person[1] > dimension) {
       person[0] = originalX;
       person[1] = originalY;
-      person[2]--;
-      person[3]++;
-      continue;
-    }
 
+      if (proto == 4) {
+        person[3]++;
+      }
+      else if (proto == 8) {
+        person[2]--;
+        person[3]++;
+        continue;
+      }
+    }
     break;
   }
-
-  return person;
+    return person;
 }
 
 // Provides error messaging based on invalid, less than, or greater than
@@ -345,8 +318,7 @@ int main() {
   int personB[] = {userDimension, userDimension, 0, 0};
 
   while (1) {
-    //rollFour(personA, userDimension);
-    rollEight(personA, userDimension);
+    roll(8, personA, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if (didTheyMeet == 1)
       break;
@@ -354,8 +326,7 @@ int main() {
     if (maxReached == 1)
       break;
 
-    //rollFour(personB, userDimension);
-    rollEight(personB, userDimension);
+    roll(8, personB, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if (didTheyMeet == 1)
       break;
