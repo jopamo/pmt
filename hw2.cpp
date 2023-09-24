@@ -33,9 +33,9 @@ using namespace std;
 
 // Function prototypes
 bool intCheck(string str);
-bool dimCheck(int x);
-bool moveCheck(int x);
-int* rollEight(int person[], int dimension);
+int dimCheck(int x);
+int moveCheck(int x);
+int* roll(int proto, int person[], int dimension);
 bool locCheck(int personA[], int personB[]);
 bool maxmoveCheck(int personA[], int personB[], int maxMoves, int totalMovesPersonA, int totalMovesPersonB);
 
@@ -64,6 +64,8 @@ bool openFile(const string& filename) {
     // Read integers and assign them to unique variables, comma delimited
     while (getline(ss, token, ',')) {
       if ( intCheck(token) ) {
+        //DO NOT overflow stoi
+        token.resize(10);
         experiment.values.push_back(stoi(token));
       }
       else {
@@ -191,36 +193,31 @@ int* roll(int proto, int person[], int dimension) {
 
 // Provides error messaging based on invalid, less than, or greater than
 // This is the user input Dimension variable error messaging
-bool dimCheck(int x) {
-  if (x == -1) {
-    cout << "\nThis is not a number. Please write a number between 1 to 99.\n" << endl;
-  }
-  else if (x < 1) {
+int dimCheck(int x) {
+  if (x < 1) {
     cout << "\nThe number has to be larger than 1. Please write a number between 1 to 99.\n" << endl;
-    return false;
+    return -1;
   }
   else if (x > 99) {
     cout << "\nDimension has to smaller than 100. Please write a number between 1 to 99.\n" << endl;
-    return false;
+    return -1;
   }
-  return true;
+  return x;
 }
 
 // Provides error messaging based on invalid, less than, or greater than
 // This is the user input maxMoves variable error messaging
-bool moveCheck(int x) {
-  if(x == -1)
-    cout << "\nThis is not a number. Please write a number between 1 to 1000000.\n" << endl;
-  else if (x < 1) {
-    cout << "\nDimension has to be larger than 1. Please write a number between 1 to 1000000.\n" << endl;
-    return false;
+int moveCheck(int x) {
+  if (x < 1) {
+    cout << "\nMax moves has to be 1 or larger. Please write a number between 1 to 1000000.\n" << endl;
+    return -1;
   }
   else if (x > 1000000) {
-    cout << "\nDimension has to smaller than 1000000. Please write a number between 1 to 1000000.\n" << endl;
-    return false;
+    cout << "\nMax moves has to smaller than 1000000. Please write a number between 1 to 1000000.\n" << endl;
+    return -1;
   }
 
-  return true;
+  return x;
 }
 
 //check if personA and personB meet
@@ -260,7 +257,15 @@ void intro() {
   cout << "computer will try before giving up. Have Fun.\n\n";
 }
 
-void simulate(int proto, int personA[],int personB[], int dimension, int maxMoves) {
+
+int simulate(int proto, int personA[],int personB[], int dimension, int moves) {
+  int userDimension = dimCheck(dimension);
+  int maxMoves = moveCheck(moves);
+
+  if ( userDimension == -1 || maxMoves == -1 ) {
+    return -1;
+  }
+
   bool didTheyMeet;
   int maxReached;
 
@@ -269,13 +274,13 @@ void simulate(int proto, int personA[],int personB[], int dimension, int maxMove
   personA[2] = 0;
   personA[3] = 0;
 
-  personB[0] = dimension;
-  personB[1] = dimension;
+  personB[0] = userDimension;
+  personB[1] = userDimension;
   personB[2] = 0;
   personB[3] = 0;
 
   while (1) {
-    roll(proto, personA, dimension);
+    roll(proto, personA, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if (didTheyMeet == 1)
       break;
@@ -283,7 +288,7 @@ void simulate(int proto, int personA[],int personB[], int dimension, int maxMove
     if (maxReached == 1)
       break;
 
-    roll(proto, personB, dimension);
+    roll(proto, personB, userDimension);
     didTheyMeet = locCheck(personA, personB);
     if (didTheyMeet == 1)
       break;
@@ -291,6 +296,8 @@ void simulate(int proto, int personA[],int personB[], int dimension, int maxMove
     if (maxReached == 1)
       break;
   }
+
+  return 0;
 }
 
 int main() {
@@ -322,26 +329,10 @@ int main() {
       }
       cout << endl;
     }
-
-    /*
-    cout << endl;
-    cout << experiments[0].values[0] << endl;
-    cout << experiments[0].values[1] << endl;
-    cout << experiments[0].values[2] << endl;
-    */
   }
   else {
     cerr << "fail open file" << endl;
   }
-
-  /* //incomplete not working
-  if ( dimCheck(dim) ) {
-    //valid input
-  }
-
-  if ( moveCheck(moves) ) {
-    //valid input
-  }*/
 
   cout <<"\nPersonA start point: (0,0)"<< endl;
   cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
