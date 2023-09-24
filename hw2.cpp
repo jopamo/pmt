@@ -30,43 +30,47 @@ External files: None
 
 using namespace std;
 
+// Function prototypes
+int dimCheck(string str);
+int moveCheck(string str);
+int str2int(string input);
+int* rollEight(int person[], int dimension);
+bool locCheck(int personA[], int personB[]);
+bool maxmoveCheck(int personA[], int personB[], int maxMoves, int totalMovesPersonA, int totalMovesPersonB);
+
 struct Experiment {
     int protocol;
     int maxMovesBeforeGivingUp;
     int repetitions;
     int d0, d1, d2, d3, d4;
-    
 };
 
 Experiment readingExpData(ifstream& inputFile){
-    Experiment experiment;
+    Experiment s;
     string line;
-    char comma;
-    
+    char ch;
+
     //first line (dimensions)
     if (getline(inputFile, line)) {
         istringstream iss(line);
-        if (!(iss >> experiment.d0 >> comma >> experiment.d1 >> comma >> experiment.d2
-        >> comma >> experiment.d3 >> comma >> experiment.d4)) {
-            cerr << "Error reading first line!" << endl;
+        if (!(iss >> s.d0 >> ch >> s.d1 >> ch >> s.d2 >> ch >> s.d3 >> ch >> s.d4)) {
+          cerr << "Error reading first line!" << endl;
         }
     } else {
         cerr << "Empty file!" << endl;
     }
-    
+
     //second line
     getline(inputFile, line);
     istringstream iss(line);
-    if (!(iss >> experiment.protocol >> comma >> experiment.maxMovesBeforeGivingUp
-    >> comma >> experiment.repetitions)){
+    if (!(iss >> s.protocol >> ch >> s.maxMovesBeforeGivingUp >> ch >> s.repetitions)) {
         cerr << "Error reading second line!" << endl;
     }
-    
 
-    return experiment;
+
+    return s;
 }
 
-/*
 bool openFile(const string& filename) {
   string line;
   ifstream inputFile(filename);
@@ -75,17 +79,15 @@ bool openFile(const string& filename) {
     cerr << "Error: Unable to open file " << filename << endl;
     return false;
   }
-  
+
   while (getline(inputFile, line)) {
-    cout << line << endl;
+    Experiment experiment = readingExpData(inputFile);
   }
 
   inputFile.close();
-  
+
   return true;
 }
-
-*/
 
 //checks input string by char array and returns on first
 //encountered non integer character from index 0
@@ -367,46 +369,32 @@ int main() {
 
   cout << "\tTotal moves for PersonA: " << personA[2] << endl;
   cout << "\tTotal moves for PersonB: " << personB[2] << endl;
-  
- 
-  //if file can't open
+
   string filename = "indata.txt";
-  /*
-  if (!openFile(filename)) {
-    cout << "fail open file" << endl;
-  }
-  
-  */
   ifstream inputFile(filename);
-  if (!inputFile.is_open()){
-      cerr << "unable to open file." << endl;
-  }
-  
-  /*
-  inputFile >> comma;
-  
-  Experiment* experiments = new Experiment[numOfExperiments];
-  int* results = new int[numOfExperiments * 3];
-  
-  for (int i = 0; i < numOfExperiments; i++){
-      experiments[i] = readingExpData(inputFile);
-  }
-  inputFile.close();
-  */
-  
+
   Experiment experiment = readingExpData(inputFile);
-  
-  
-  cout << experiment.d0 << endl;
-  cout << experiment.d1 << endl;
-  cout << experiment.d2 << endl;
-  cout << experiment.d3 << endl;
-  cout << experiment.d4 << endl;
-  cout << experiment.protocol << endl;
-  cout << experiment.maxMovesBeforeGivingUp << endl;
-  cout << experiment.repetitions << endl;
-  cout << endl;
-  
+
+  // Close the file
+  inputFile.close();
+
+  if (openFile(filename)) {
+    cout << "success open file" << endl;
+
+    cout << "Experiment d0: " << experiment.d0 << endl;
+    cout << "Experiment d1: " << experiment.d1 << endl;
+    cout << "Experiment d2: " << experiment.d2 << endl;
+    cout << "Experiment d3: " << experiment.d3 << endl;
+    cout << "Experiment d4: " << experiment.d4 << endl;
+
+    cout << experiment.protocol << endl;
+    cout << experiment.maxMovesBeforeGivingUp << endl;
+    cout << experiment.repetitions << endl;
+    cout << endl;
+  }
+  else {
+    cerr << "fail open file" << endl;
+  }
 
   return 0;
 }
