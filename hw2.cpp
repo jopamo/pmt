@@ -27,6 +27,8 @@ External files: None
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
+#include <stdexcept>
 
 using namespace std;
 
@@ -39,40 +41,15 @@ bool locCheck(int personA[], int personB[]);
 bool maxmoveCheck(int personA[], int personB[], int maxMoves, int totalMovesPersonA, int totalMovesPersonB);
 
 struct Experiment {
-    int protocol;
-    int maxMovesBeforeGivingUp;
-    int repetitions;
-    int d0, d1, d2, d3, d4;
+  vector<int> values;
 };
 
-Experiment readingExpData(ifstream& inputFile){
-    Experiment s;
-    string line;
-    char ch;
-
-    //first line (dimensions)
-    if (getline(inputFile, line)) {
-        istringstream iss(line);
-        if (!(iss >> s.d0 >> ch >> s.d1 >> ch >> s.d2 >> ch >> s.d3 >> ch >> s.d4)) {
-          cerr << "Error reading first line!" << endl;
-        }
-    } else {
-        cerr << "Empty file!" << endl;
-    }
-
-    //second line
-    getline(inputFile, line);
-    istringstream iss(line);
-    if (!(iss >> s.protocol >> ch >> s.maxMovesBeforeGivingUp >> ch >> s.repetitions)) {
-        cerr << "Error reading second line!" << endl;
-    }
-
-
-    return s;
-}
+vector<Experiment> experiments;
 
 bool openFile(const string& filename) {
   string line;
+  int lineNumber = 0;
+
   ifstream inputFile(filename);
 
   if (!inputFile.is_open()) {
@@ -81,7 +58,22 @@ bool openFile(const string& filename) {
   }
 
   while (getline(inputFile, line)) {
-    Experiment experiment = readingExpData(inputFile);
+    Experiment experiment;
+    stringstream ss(line);
+    string token;
+
+    try {
+      // Read integers and assign them to unique variables, comma delimited
+      while (getline(ss, token, ',')) {
+        experiment.values.push_back(stoi(token));
+      }
+    } catch (const invalid_argument& e) {
+        cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << e.what() << endl;
+        return 1; // Exit with an error code
+    }
+
+    experiments.push_back(experiment);
+    lineNumber++;
   }
 
   inputFile.close();
@@ -97,7 +89,7 @@ bool intCheck(string input) {
 
   for (int i=0; i < input.size(); i++) {
     if (!isdigit(input[i]))
-        return false;
+      return false;
   }
 
   return true;
@@ -371,26 +363,17 @@ int main() {
   cout << "\tTotal moves for PersonB: " << personB[2] << endl;
 
   string filename = "indata.txt";
-  ifstream inputFile(filename);
-
-  Experiment experiment = readingExpData(inputFile);
-
-  // Close the file
-  inputFile.close();
 
   if (openFile(filename)) {
     cout << "success open file" << endl;
 
-    cout << "Experiment d0: " << experiment.d0 << endl;
-    cout << "Experiment d1: " << experiment.d1 << endl;
-    cout << "Experiment d2: " << experiment.d2 << endl;
-    cout << "Experiment d3: " << experiment.d3 << endl;
-    cout << "Experiment d4: " << experiment.d4 << endl;
-
-    cout << experiment.protocol << endl;
-    cout << experiment.maxMovesBeforeGivingUp << endl;
-    cout << experiment.repetitions << endl;
-    cout << endl;
+    for (int i = 0; i < experiments.size(); ++i) {
+      cout << "Line " << i + 1 << " - Values: ";
+      for (int j = 0; j < experiments[i].values.size(); ++j) {
+         cout << "Value" << j << ": " << experiments[i].values[j] << " ";
+      }
+      cout << endl;
+    }
   }
   else {
     cerr << "fail open file" << endl;
