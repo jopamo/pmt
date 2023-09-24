@@ -63,22 +63,16 @@ bool openFile(const string& filename) {
     stringstream ss(line);
     string token;
 
-    try {
-      // Read integers and assign them to unique variables, comma delimited
-      while (getline(ss, token, ',')) {
-        if ( intCheck(token) ) {
-          experiment.values.push_back(stoi(token));
-        }
-        else {
-          cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
-          inputFile.close();
-          return false;
-        }
+    // Read integers and assign them to unique variables, comma delimited
+    while (getline(ss, token, ',')) {
+      if ( intCheck(token) ) {
+        experiment.values.push_back(stoi(token));
       }
-    } catch (const invalid_argument& e) {
-        cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << e.what() << endl;
+      else {
+        cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
         inputFile.close();
         return false;
+      }
     }
 
     experiments.push_back(experiment);
@@ -383,7 +377,7 @@ int main() {
       }
       cout << endl;
     }
-    
+
     /*
     cout << endl;
     cout << experiments[0].values[0] << endl;
@@ -394,20 +388,20 @@ int main() {
   else {
     cerr << "fail open file" << endl;
   }
-  
+
   //First two lines of the file data
   int d0 = experiments[0].values[0];
   int d1 = experiments[0].values[1];
   int d2 = experiments[0].values[2];
   int d3 = experiments[0].values[3];
   int d4 = experiments[0].values[4];
-  
+
   int p = experiments[1].values[0];
   int m = experiments[1].values[1];
   int r = experiments[1].values[2];
-  
-  
-  
+
+
+
 
   return 0;
 }
