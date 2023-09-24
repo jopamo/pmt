@@ -28,7 +28,6 @@ External files: None
 #include <string>
 #include <sstream>
 #include <vector>
-#include <stdexcept>
 
 using namespace std;
 
@@ -63,22 +62,16 @@ bool openFile(const string& filename) {
     stringstream ss(line);
     string token;
 
-    try {
-      // Read integers and assign them to unique variables, comma delimited
-      while (getline(ss, token, ',')) {
-        if ( intCheck(token) ) {
-          experiment.values.push_back(stoi(token));
-        }
-        else {
-          cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
-          inputFile.close();
-          return false;
-        }
+    // Read integers and assign them to unique variables, comma delimited
+    while (getline(ss, token, ',')) {
+      if ( intCheck(token) ) {
+        experiment.values.push_back(stoi(token));
       }
-    } catch (const invalid_argument& e) {
-        cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << e.what() << endl;
+      else {
+        cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
         inputFile.close();
         return false;
+      }
     }
 
     experiments.push_back(experiment);
