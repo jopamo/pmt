@@ -33,6 +33,7 @@ External files: None
 using namespace std;
 
 // Function prototypes
+bool intCheck(string str);
 int dimCheck(string str);
 int moveCheck(string str);
 int str2int(string input);
@@ -65,11 +66,19 @@ bool openFile(const string& filename) {
     try {
       // Read integers and assign them to unique variables, comma delimited
       while (getline(ss, token, ',')) {
-        experiment.values.push_back(stoi(token));
+        if ( intCheck(token) ) {
+          experiment.values.push_back(stoi(token));
+        }
+        else {
+          cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
+          inputFile.close();
+          return false;
+        }
       }
     } catch (const invalid_argument& e) {
         cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << e.what() << endl;
-        return 1; // Exit with an error code
+        inputFile.close();
+        return false;
     }
 
     experiments.push_back(experiment);
@@ -83,12 +92,12 @@ bool openFile(const string& filename) {
 
 //checks input string by char array and returns on first
 //encountered non integer character from index 0
-bool intCheck(string input) {
-  if (input.size()==0)
+bool intCheck(string str) {
+  if (str.size()==0)
     return false;
 
-  for (int i=0; i < input.size(); i++) {
-    if (!isdigit(input[i]))
+  for (int i=0; i < str.size(); i++) {
+    if (!isdigit(str[i]))
       return false;
   }
 
@@ -374,6 +383,11 @@ int main() {
       }
       cout << endl;
     }
+
+    cout << endl;
+    cout << experiments[0].values[0] << endl;
+    cout << experiments[0].values[1] << endl;
+    cout << experiments[0].values[2] << endl;
   }
   else {
     cerr << "fail open file" << endl;
