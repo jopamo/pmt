@@ -28,15 +28,13 @@ External files: None
 #include <string>
 #include <sstream>
 #include <vector>
-#include <stdexcept>
 
 using namespace std;
 
 // Function prototypes
 bool intCheck(string str);
-int dimCheck(string str);
-int moveCheck(string str);
-int str2int(string input);
+bool dimCheck(int x);
+bool moveCheck(int x);
 int* rollEight(int person[], int dimension);
 bool locCheck(int personA[], int personB[]);
 bool maxmoveCheck(int personA[], int personB[], int maxMoves, int totalMovesPersonA, int totalMovesPersonB);
@@ -96,19 +94,6 @@ bool intCheck(string str) {
   }
 
   return true;
-}
-
-//if intCheck returns true, give stoi the first 8 digits only
-int str2int(string input) {
-  bool isInt = intCheck(input);
-
-  if (isInt) {
-    //don't give stoi() anything beyond 8 char wide
-    input.resize(8);
-    return stoi(input);
-  }
-
-  return -1;
 }
 
 /*
@@ -233,40 +218,36 @@ int* rollEight(int person[], int dimension) {
 
 // Provides error messaging based on invalid, less than, or greater than
 // This is the user input Dimension variable error messaging
-int dimCheck(string str) {
-  int x = str2int(str);
-
+bool dimCheck(int x) {
   if (x == -1) {
     cout << "\nThis is not a number. Please write a number between 1 to 99.\n" << endl;
   }
   else if (x < 1) {
     cout << "\nThe number has to be larger than 1. Please write a number between 1 to 99.\n" << endl;
-    return -1;
+    return false;
   }
   else if (x > 99) {
     cout << "\nDimension has to smaller than 100. Please write a number between 1 to 99.\n" << endl;
-    return -1;
+    return false;
   }
-  return x;
+  return true;
 }
 
 // Provides error messaging based on invalid, less than, or greater than
 // This is the user input maxMoves variable error messaging
-int moveCheck(string str) {
-  int x = str2int(str);
-
+bool moveCheck(int x) {
   if(x == -1)
     cout << "\nThis is not a number. Please write a number between 1 to 1000000.\n" << endl;
   else if (x < 1) {
     cout << "\nDimension has to be larger than 1. Please write a number between 1 to 1000000.\n" << endl;
-    return -1;
+    return false;
   }
   else if (x > 1000000) {
     cout << "\nDimension has to smaller than 1000000. Please write a number between 1 to 1000000.\n" << endl;
-    return -1;
+    return false;
   }
 
-  return x;
+  return true;
 }
 
 //check if personA and personB meet
@@ -299,6 +280,12 @@ bool maxmoveCheck(int personA[], int personB[], int maxMoves, int totalMovesPers
 }
 
 int main() {
+  cout << "This program automatically moves 2 people across a gameboard, the\n";
+  cout << "board is a classic (x,y) Cartesian coordinate system. PersonA will start in\n";
+  cout << "the bottom left hand side and PersonB will start at top right of the board. You\n";
+  cout << "will be prompted to choose how big the board will be and how many moves the\n";
+  cout << "computer will try before giving up. Have Fun.\n\n";
+
   srand (time(NULL));
 
   string userString;
@@ -310,27 +297,39 @@ int main() {
   int userDimension = -1;
   int maxMoves = -1;
 
-  cout << "This program automatically moves 2 people across a gameboard, the\n";
-  cout << "board is a classic (x,y) Cartesian coordinate system. PersonA will start in\n";
-  cout << "the bottom left hand side and PersonB will start at top right of the board. You\n";
-  cout << "will be prompted to choose how big the board will be and how many moves the\n";
-  cout << "computer will try before giving up. Have Fun.\n\n";
+  string filename = "indata.txt";
 
-  /* Ask the user to enter dimension*/
-  while (userDimension == -1) {
-    cout << "For the maximum coordinate of the square grid," << endl;
-    cout << "Enter a number between 1 to 99: ";
-    cin >> userString;
-    userDimension = dimCheck(userString);
+  if (openFile(filename)) {
+    userDimension = experiments[0].values[0];
+    cout << "success open file" << endl;
+
+    for (int i = 0; i < experiments.size(); ++i) {
+      cout << "Line " << i + 1 << " - Values: ";
+      for (int j = 0; j < experiments[i].values.size(); ++j) {
+        cout << "Value" << j << ": " << experiments[i].values[j] << " ";
+      }
+      cout << endl;
+    }
+
+    /*
+    cout << endl;
+    cout << experiments[0].values[0] << endl;
+    cout << experiments[0].values[1] << endl;
+    cout << experiments[0].values[2] << endl;
+    */
+  }
+  else {
+    cerr << "fail open file" << endl;
   }
 
-  /* Ask the user to enter maxMoves*/
-  while (maxMoves == -1) {
-    cout << "\nFor the maximum number of turns," << endl;
-    cout << "Enter a number between 1 to 1000000: ";
-    cin >> userString;
-    maxMoves = moveCheck(userString);
+  /* //incomplete not working
+  if ( dimCheck(dim) ) {
+    //valid input
   }
+
+  if ( moveCheck(moves) ) {
+    //valid input
+  }*/
 
   cout <<"\nPersonA start point: (0,0)"<< endl;
   cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
@@ -365,30 +364,6 @@ int main() {
   cout << "\tTotal moves for PersonA: " << personA[2] << endl;
   cout << "\tTotal moves for PersonB: " << personB[2] << endl;
 
-  string filename = "indata.txt";
-
-  if (openFile(filename)) {
-    cout << "success open file" << endl;
-
-    for (int i = 0; i < experiments.size(); ++i) {
-      cout << "Line " << i + 1 << " - Values: ";
-      for (int j = 0; j < experiments[i].values.size(); ++j) {
-         cout << "Value" << j << ": " << experiments[i].values[j] << " ";
-      }
-      cout << endl;
-    }
-
-    /*
-    cout << endl;
-    cout << experiments[0].values[0] << endl;
-    cout << experiments[0].values[1] << endl;
-    cout << experiments[0].values[2] << endl;
-    */
-  }
-  else {
-    cerr << "fail open file" << endl;
-  }
-
   //First two lines of the file data
   int d0 = experiments[0].values[0];
   int d1 = experiments[0].values[1];
@@ -399,9 +374,6 @@ int main() {
   int p = experiments[1].values[0];
   int m = experiments[1].values[1];
   int r = experiments[1].values[2];
-
-
-
 
   return 0;
 }
