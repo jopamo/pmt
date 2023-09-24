@@ -301,6 +301,8 @@ int main() {
 
   if (openFile(filename)) {
     userDimension = experiments[0].values[0];
+    maxMoves = experiments[1].values[1];
+
     cout << "success open file" << endl;
 
     for (int i = 0; i < experiments.size(); ++i) {
