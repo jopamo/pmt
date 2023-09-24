@@ -256,6 +256,7 @@ void intro() {
 int simulate(int proto, int personA[],int personB[], int dimension, int moves) {
   int userDimension = dimCheck(dimension);
   int maxMoves = moveCheck(moves);
+  int total = -1;
 
   if ( userDimension == -1 || maxMoves == -1 ) {
     return -1;
@@ -292,35 +293,9 @@ int simulate(int proto, int personA[],int personB[], int dimension, int moves) {
       break;
   }
 
-  return 0;
-}
+  total = personA[2] + personB[2];
 
-int main() {
-  intro();
-
-  srand (time(NULL));
-
-  string userString;
-
-  bool maxReached = 0;
-  bool didTheyMeet = 0;
-
-  //this is Dimension and maxMoves as referenced in the documentation
-  int userDimension = -1;
-  int maxMoves = -1;
-
-  string filename = "indata.txt";
-
-  if (openFile(filename)) {
-    int personA[] = {0, 0, 0, 0};
-    int personB[] = {userDimension, userDimension, 0, 0};
-
-    userDimension = experiments[0].values[0];
-    maxMoves = experiments[1].values[1];
-
-    int simulation = simulate(8, personA, personB, userDimension, maxMoves);
-
-    if (simulation == 0) {
+  if (!(total == -1)) {
       cout << "success open file" << endl;
 
       cout <<"\nPersonA start point: (0,0)"<< endl;
@@ -340,10 +315,47 @@ int main() {
         }
         cout << endl;
       }
+  }
+  else {
+    cerr << "fail open file" << endl;
+  }
+
+  return total;
+}
+
+int main() {
+  intro();
+
+  srand (time(NULL));
+
+  string userString;
+
+  bool maxReached = 0;
+  bool didTheyMeet = 0;
+
+  //this is Dimension and maxMoves as referenced in the documentation
+  int userDimension = -1;
+  int maxMoves = -1;
+  int repeats = -1;
+
+  string filename = "indata.txt";
+
+  if (openFile(filename)) {
+    int personA[] = {0, 0, 0, 0};
+    int personB[] = {userDimension, userDimension, 0, 0};
+
+    userDimension = experiments[0].values[0];
+    maxMoves = experiments[1].values[1];
+    repeats = experiments[1].values[2];
+
+    int *simulation = new int[repeats];
+
+
+    for (int i = 0; i < repeats; ++i) {
+      simulation[i] = simulate(8, personA, personB, userDimension, maxMoves);
     }
-    else {
-      cerr << "fail open file" << endl;
-    }
+
+
   }
   return 0;
 }
