@@ -317,10 +317,25 @@ int main() {
   string filename = "indata.txt";
 
   if (openFile(filename)) {
+    int personA[] = {0, 0, 0, 0};
+    int personB[] = {userDimension, userDimension, 0, 0};
+
     userDimension = experiments[0].values[0];
     maxMoves = experiments[1].values[1];
 
     cout << "success open file" << endl;
+
+    cout <<"\nPersonA start point: (0,0)"<< endl;
+    cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
+    cout <<"\nLet's go!" << endl;
+
+    simulate(8, personA, personB, userDimension, maxMoves);
+
+    cout << "Total wall hits for PersonA: " << personA[3] << endl;
+    cout << "Total wall hits for PersonB: " << personB[3] << endl;
+
+    cout << "\tTotal moves for PersonA: " << personA[2] << endl;
+    cout << "\tTotal moves for PersonB: " << personB[2] << endl;
 
     for (int i = 0; i < experiments.size(); ++i) {
       cout << "Line " << i + 1 << " - Values: ";
@@ -333,32 +348,6 @@ int main() {
   else {
     cerr << "fail open file" << endl;
   }
-
-  cout <<"\nPersonA start point: (0,0)"<< endl;
-  cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
-  cout <<"\nLet's go!" << endl;
-
-  int personA[] = {0, 0, 0, 0};
-  int personB[] = {userDimension, userDimension, 0, 0};
-
-  simulate(8, personA, personB, userDimension, maxMoves);
-
-  cout << "Total wall hits for PersonA: " << personA[3] << endl;
-  cout << "Total wall hits for PersonB: " << personB[3] << endl;
-
-  cout << "\tTotal moves for PersonA: " << personA[2] << endl;
-  cout << "\tTotal moves for PersonB: " << personB[2] << endl;
-
-  //First two lines of the file data
-  int d0 = experiments[0].values[0];
-  int d1 = experiments[0].values[1];
-  int d2 = experiments[0].values[2];
-  int d3 = experiments[0].values[3];
-  int d4 = experiments[0].values[4];
-
-  int p = experiments[1].values[0];
-  int m = experiments[1].values[1];
-  int r = experiments[1].values[2];
 
   return 0;
 }
