@@ -365,9 +365,7 @@ int main() {
        std::cout << "high:  " << max << "   \t";
        std::cout << "avg: " << avg << "\n";
 
-       min = -1;
-       max = -1;
-       sum = 0;
+       empty = true;
      }
      cout << endl;
     //Experiment 2 start
@@ -406,9 +404,7 @@ int main() {
        std::cout << "high:  " << max << "   \t";
        std::cout << "avg: " << avg << "\n";
 
-       min = -1;
-       max = -1;
-       sum = 0;
+       empty = true;
     }
     cout << endl;
     //Experiment 3 start
@@ -448,8 +444,7 @@ int main() {
        std::cout << "high:  " << max << "   \t";
        std::cout << "avg: " << avg << "\n";
 
-       min = -1;
-       max = -1;
+       empty = true;
    }
 
    cout << endl;
