@@ -248,9 +248,9 @@ bool maxmoveCheck(int personA[], int personB[], int maxMoves, int totalMovesPers
 void intro() {
   cout << "This program automatically moves 2 people across a gameboard, the\n";
   cout << "board is a classic (x,y) Cartesian coordinate system. PersonA will start in\n";
-  cout << "the bottom left hand side and PersonB will start at top right of the board. You\n";
-  cout << "will be prompted to choose how big the board will be and how many moves the\n";
-  cout << "computer will try before giving up. Have Fun.\n\n";
+  cout << "the bottom left hand side and PersonB will start at top right of the board. It\n";
+  cout << "uses the indata.txt input file to run play this game repeatedly using different values\n";
+  cout << "and provides some resulting statistical data. Have Fun.\n\n";
 }
 
 int simulate(int proto, int personA[],int personB[], int dimension, int moves) {
