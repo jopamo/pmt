@@ -405,7 +405,7 @@ int main() {
 
        avg = sum / experiments[2].values[i];
 
-       outputFile << "R" << i << ": " << experiments[3].values[0] << "\t";
+       outputFile << "R" << i << ": " << experiments[2].values[i] << "         \t";
        outputFile << "D: " << userDimension << "   \t";
        outputFile << "maxMoves: " << maxMoves << "   ";
        outputFile << "Protocol: " << prot << "   ";
@@ -455,11 +455,9 @@ int main() {
 
        empty = true;
    }
-
    outputFile << endl;
 
   }
-
   outputFile.close();
 
   return 0;
