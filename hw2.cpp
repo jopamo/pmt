@@ -296,25 +296,25 @@ int simulate(int proto, int personA[],int personB[], int dimension, int moves) {
   total = personA[2] + personB[2];
 
   if (!(total == -1)) {
-      cout << "success open file" << endl;
+    cout << "success open file" << endl;
 
-      cout <<"\nPersonA start point: (0,0)"<< endl;
-      cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
-      cout <<"\nLet's go!" << endl;
+    cout <<"\nPersonA start point: (0,0)"<< endl;
+    cout <<"PersonB start point: (" << userDimension << "," << userDimension << ")" << endl;
+    cout <<"\nLet's go!" << endl;
 
-      cout << "\tTotal wall hits for PersonA: " << personA[3] << endl;
-      cout << "\tTotal wall hits for PersonB: " << personB[3] << endl;
+    cout << "\tTotal wall hits for PersonA: " << personA[3] << endl;
+    cout << "\tTotal wall hits for PersonB: " << personB[3] << endl;
 
-      cout << "\tTotal moves for PersonA: " << personA[2] << endl;
-      cout << "\tTotal moves for PersonB: " << personB[2] << endl;
+    cout << "\tTotal moves for PersonA: " << personA[2] << endl;
+    cout << "\tTotal moves for PersonB: " << personB[2] << endl;
 
-      for (int i = 0; i < experiments.size(); ++i) {
-        cout << "Line " << i + 1 << " - Values: ";
-        for (int j = 0; j < experiments[i].values.size(); ++j) {
-          cout << "Value" << j << ": " << experiments[i].values[j] << " ";
-        }
-        cout << endl;
+    for (int i = 0; i < experiments.size(); ++i) {
+      cout << "Line " << i + 1 << " - Values: ";
+      for (int j = 0; j < experiments[i].values.size(); ++j) {
+        cout << "Value" << j << ": " << experiments[i].values[j] << " ";
       }
+      cout << endl;
+    }
   }
   else {
     cerr << "fail open file" << endl;
@@ -337,6 +337,13 @@ int main() {
   int userDimension = -1;
   int maxMoves = -1;
   int repeats = -1;
+  int prot = -1;
+
+  bool empty = true;
+  int min, max, sum, avg;
+
+  std::vector<int> totals;
+
 
   string filename = "indata.txt";
 
@@ -344,17 +351,48 @@ int main() {
     int personA[] = {0, 0, 0, 0};
     int personB[] = {userDimension, userDimension, 0, 0};
 
-    userDimension = experiments[0].values[0];
     maxMoves = experiments[1].values[1];
     repeats = experiments[1].values[2];
+    prot = experiments[1].values[0];
 
-    int *simulation = new int[repeats];
+    for (int i = 0; i < 5; i++) {
 
 
-    for (int i = 0; i < repeats; ++i) {
-      simulation[i] = simulate(8, personA, personB, userDimension, maxMoves);
+      for (int j = 0; j < repeats; j++) {
+        userDimension = experiments[0].values[i];
+        int simulation = simulate(prot, personA, personB, userDimension, maxMoves);
+
+        if (empty) {
+          empty = false;
+          sum = 0;
+          min = simulation;
+          max = simulation;
+        }
+        if (max < simulation) {
+          max = simulation;
+        }
+        if (simulation < min) {
+          min = simulation;
+        }
+
+        sum += simulation;
+        totals.push_back(simulation);
+      }
+
+       avg = sum / repeats;
+
+       std::cout << "sum " << sum << endl;
+       std::cout << "min " << min << endl;
+       std::cout << "max " << max << endl;
+       std::cout << "avg " << avg << endl;
+       std::cout << "repeats " << repeats << endl;
+   }
+
+    for (int j : totals) {
+      cout << j << " ";
     }
 
+    cout << endl;
 
   }
   return 0;
