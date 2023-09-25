@@ -308,6 +308,8 @@ int main() {
 
   srand (time(NULL));
 
+  ofstream outputFile;
+
   string userString;
 
   bool maxReached = 0;
@@ -326,6 +328,13 @@ int main() {
   int personB[] = {userDimension, userDimension, 0, 0};
 
   string filename = "indata.txt";
+  outputFile.open("outdata.txt");
+
+  // Check if the file was successfully opened
+  if (!outputFile) {
+    cerr << "Error opening the file." << endl;
+    return 1; // Exit with an error code
+  }
 
   if (openFile(filename)) {
     //Experiment 1 start
@@ -333,7 +342,7 @@ int main() {
     repeats = experiments[1].values[2];
     prot = experiments[1].values[0];
 
-    std::cout << "Experiment #1 changes the dimensions of the grid.\n";
+    outputFile << "Experiment #1 changes the dimensions of the grid.\n";
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < repeats; j++) {
         userDimension = experiments[0].values[i];
@@ -357,23 +366,23 @@ int main() {
 
        avg = sum / repeats;
 
-       std::cout << "D" << i << ": " << experiments[0].values[i] << "\t";
-       std::cout << "maxMoves: " << maxMoves << "   ";
-       std::cout << "Repeats: " << repeats << "\t";
-       std::cout << "Protocol: " << prot << "   ";
-       std::cout << "low: " << min << "    \t";
-       std::cout << "high:  " << max << "   \t";
-       std::cout << "avg: " << avg << "\n";
+       outputFile << "D" << i << ": " << experiments[0].values[i] << "\t";
+       outputFile << "maxMoves: " << maxMoves << "   ";
+       outputFile << "Repeats: " << repeats << "\t";
+       outputFile << "Protocol: " << prot << "   ";
+       outputFile << "low: " << min << "    \t";
+       outputFile << "high:  " << max << "   \t";
+       outputFile << "avg: " << avg << "\n";
 
        empty = true;
      }
-     cout << endl;
+     outputFile << endl;
     //Experiment 2 start
     maxMoves = experiments[3].values[2];
     prot = experiments[3].values[1];
     userDimension = experiments[3].values[0];
 
-    std::cout << "Experiment #2 changes the number of repeats for each row.\n";
+    outputFile << "Experiment #2 changes the number of repeats for each row.\n";
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < experiments[2].values[i]; j++) {
         int simulation = simulate(prot, personA, personB, userDimension, maxMoves);
@@ -396,23 +405,23 @@ int main() {
 
        avg = sum / experiments[2].values[i];
 
-       std::cout << "R" << i << ": " << experiments[3].values[0] << "\t";
-       std::cout << "D: " << userDimension << "   \t";
-       std::cout << "maxMoves: " << maxMoves << "   ";
-       std::cout << "Protocol: " << prot << "   ";
-       std::cout << "low: " << min << "    \t";
-       std::cout << "high:  " << max << "   \t";
-       std::cout << "avg: " << avg << "\n";
+       outputFile << "R" << i << ": " << experiments[3].values[0] << "\t";
+       outputFile << "D: " << userDimension << "   \t";
+       outputFile << "maxMoves: " << maxMoves << "   ";
+       outputFile << "Protocol: " << prot << "   ";
+       outputFile << "low: " << min << "    \t";
+       outputFile << "high:  " << max << "   \t";
+       outputFile << "avg: " << avg << "\n";
 
        empty = true;
     }
-    cout << endl;
+    outputFile << endl;
     //Experiment 3 start
     maxMoves = experiments[5].values[1];
     repeats = experiments[5].values[2];
     userDimension = experiments[5].values[0];
 
-    std::cout << "Experiment #3 changes the protocols\n";
+    outputFile << "Experiment #3 changes the protocols\n";
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < repeats; j++) {
         prot = experiments[4].values[i];
@@ -436,19 +445,22 @@ int main() {
 
        avg = sum / repeats;
 
-       std::cout << "P" << i << ": " << experiments[4].values[i] << "\t";
-       std::cout << "D: " << userDimension << "   \t";
-       std::cout << "maxMoves: " << maxMoves << "   ";
-       std::cout << "Repeats: " << repeats << "\t";
-       std::cout << "low: " << min << "    \t";
-       std::cout << "high:  " << max << "   \t";
-       std::cout << "avg: " << avg << "\n";
+       outputFile << "P" << i << ": " << experiments[4].values[i] << "\t";
+       outputFile << "D: " << userDimension << "   \t";
+       outputFile << "maxMoves: " << maxMoves << "   ";
+       outputFile << "Repeats: " << repeats << "\t";
+       outputFile << "low: " << min << "    \t";
+       outputFile << "high:  " << max << "   \t";
+       outputFile << "avg: " << avg << "\n";
 
        empty = true;
    }
 
-   cout << endl;
+   outputFile << endl;
 
   }
+
+  outputFile.close();
+
   return 0;
 }
