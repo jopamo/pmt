@@ -45,43 +45,53 @@ struct Experiment {
 
 vector<Experiment> experiments;
 
+// Function to ignore invisible characters other than Unix newline characters
+string ignoreInvisible(const string& text) {
+    string visible_text;
+    for (char c : text) {
+        if (c == '\n' || (c >= 32 && c <= 126)) {
+            visible_text += c;
+        }
+    }
+    return visible_text;
+}
+
 bool openFile(const string& filename) {
-  string line;
-  int lineNumber = 0;
+    string line;
+    int lineNumber = 0;
 
-  ifstream inputFile(filename);
+    ifstream inputFile(filename);
 
-  if (!inputFile.is_open()) {
-    cerr << "Error: Unable to open file " << filename << endl;
-    return false;
-  }
-
-  while (getline(inputFile, line)) {
-    Experiment experiment;
-    stringstream ss(line);
-    string token;
-
-    // Read integers and assign them to unique variables, comma delimited
-    while (getline(ss, token, ',')) {
-      if ( intCheck(token) ) {
-        //DO NOT overflow stoi
-        token.resize(10);
-        experiment.values.push_back(stoi(token));
-      }
-      else {
-        cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
-        inputFile.close();
+    if (!inputFile.is_open()) {
+        cerr << "Error: Unable to open file " << filename << endl;
         return false;
-      }
     }
 
-    experiments.push_back(experiment);
-    lineNumber++;
-  }
+    while (getline(inputFile, line)) {
+        Experiment experiment;
+        stringstream ss(ignoreInvisible(line)); // Ignore invisible characters
+        string token;
 
-  inputFile.close();
+        // Read integers and assign them to unique variables, comma delimited
+        while (getline(ss, token, ',')) {
+            if (intCheck(token)) {
+                // DO NOT overflow stoi
+                token.resize(10);
+                experiment.values.push_back(stoi(token));
+            } else {
+                cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
+                inputFile.close();
+                return false;
+            }
+        }
 
-  return true;
+        experiments.push_back(experiment);
+        lineNumber++;
+    }
+
+    inputFile.close();
+
+    return true;
 }
 
 //checks input string by char array and returns on first
@@ -327,6 +337,8 @@ int main() {
   int personA[] = {0, 0, 0, 0};
   int personB[] = {userDimension, userDimension, 0, 0};
 
+  int simulation = -1;
+
   string filename = "indata.txt";
   outputFile.open("outdata.txt");
 
@@ -346,7 +358,11 @@ int main() {
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < repeats; j++) {
         userDimension = experiments[0].values[i];
-        int simulation = simulate(prot, personA, personB, userDimension, maxMoves);
+        simulation = simulate(prot, personA, personB, userDimension, maxMoves);
+
+        if ( simulation == -1 )
+          return -1;
+
 
         if (empty) {
           empty = false;
@@ -377,6 +393,7 @@ int main() {
        empty = true;
      }
      outputFile << endl;
+
     //Experiment 2 start
     maxMoves = experiments[3].values[2];
     prot = experiments[3].values[1];
@@ -385,7 +402,10 @@ int main() {
     outputFile << "Experiment #2 changes the number of repeats for each row.\n";
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < experiments[2].values[i]; j++) {
-        int simulation = simulate(prot, personA, personB, userDimension, maxMoves);
+        simulation = simulate(prot, personA, personB, userDimension, maxMoves);
+
+        if ( simulation == -1 )
+          return -1;
 
         if (empty) {
           empty = false;
@@ -416,6 +436,7 @@ int main() {
        empty = true;
     }
     outputFile << endl;
+
     //Experiment 3 start
     maxMoves = experiments[5].values[1];
     repeats = experiments[5].values[2];
@@ -425,7 +446,10 @@ int main() {
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < repeats; j++) {
         prot = experiments[4].values[i];
-        int simulation = simulate(prot, personA, personB, userDimension, maxMoves);
+        simulation = simulate(prot, personA, personB, userDimension, maxMoves);
+
+        if ( simulation == -1 )
+          return -1;
 
         if (empty) {
           empty = false;
