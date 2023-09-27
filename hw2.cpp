@@ -45,15 +45,26 @@ struct Experiment {
 
 vector<Experiment> experiments;
 
-// Function to ignore invisible characters other than Unix newline characters
+int tryStoi(string str) {
+  try {
+    int x = std::stoi(str);
+    return x;
+  } catch (std::out_of_range  &e) {
+      cout << "out of range: invalid." << endl;
+      return 0;
+  }
+}
+
+// Function to ignore invisible characters other than *nix newline characters
 string ignoreInvisible(const string& text) {
-    string visible_text;
-    for (char c : text) {
-        if (c == '\n' || (c >= 32 && c <= 126)) {
-            visible_text += c;
-        }
+  string visible_text;
+  for (char c : text) {
+    if (c == '\n' || (c >= 32 && c <= 126)) {
+      visible_text += c;
     }
-    return visible_text;
+  }
+
+  return visible_text;
 }
 
 bool openFile(const string& filename) {
@@ -76,8 +87,8 @@ bool openFile(const string& filename) {
         while (getline(ss, token, ',')) {
             if (intCheck(token)) {
                 // DO NOT overflow stoi
-                token.resize(10);
-                experiment.values.push_back(stoi(token));
+                token.resize(9);
+                experiment.values.push_back(tryStoi(token));
             } else {
                 cerr << "Error: Invalid input on line " << lineNumber + 1 << ": " << endl;
                 inputFile.close();
@@ -332,7 +343,9 @@ int main() {
   int prot = -1;
 
   bool empty = true;
-  int min, max, sum, avg;
+  int min, max, avg;
+
+  long long int sum;
 
   int personA[] = {0, 0, 0, 0};
   int personB[] = {userDimension, userDimension, 0, 0};
